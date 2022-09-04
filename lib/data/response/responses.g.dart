@@ -8,7 +8,7 @@ part of 'responses.dart';
 
 BaseResponse _$BaseResponseFromJson(Map<String, dynamic> json) => BaseResponse(
       get: json['get'] as String?,
-      parameters: json['parameters'] as Map<String, dynamic>?,
+      parameters: json['parameters'] as List<dynamic>?,
       errors: json['errors'] as List<dynamic>?,
       results: json['results'] as int?,
       paging: json['paging'] == null
@@ -35,15 +35,15 @@ Map<String, dynamic> _$PagingToJson(Paging instance) => <String, dynamic>{
       'total': instance.total,
     };
 
-CountriesResponse _$GetCountriesResponseFromJson(
+GetCountriesResponse _$GetCountriesResponseFromJson(
         Map<String, dynamic> json) =>
-    CountriesResponse(
+    GetCountriesResponse(
       countries: (json['response'] as List<dynamic>)
           .map((e) => CountryResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
     )
       ..get = json['get'] as String?
-      ..parameters = json['parameters'] as Map<String, dynamic>?
+      ..parameters = json['parameters'] as List<dynamic>?
       ..errors = json['errors'] as List<dynamic>?
       ..results = json['results'] as int?
       ..paging = json['paging'] == null
@@ -51,7 +51,7 @@ CountriesResponse _$GetCountriesResponseFromJson(
           : Paging.fromJson(json['paging'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$GetCountriesResponseToJson(
-        CountriesResponse instance) =>
+        GetCountriesResponse instance) =>
     <String, dynamic>{
       'get': instance.get,
       'parameters': instance.parameters,
@@ -63,12 +63,12 @@ Map<String, dynamic> _$GetCountriesResponseToJson(
 
 CountryResponse _$CountryResponseFromJson(Map<String, dynamic> json) =>
     CountryResponse(
-      name: json['name'] as String,
-      code: json['code'] as String,
-      flag: json['flag'] as String,
+      name: json['name'] as String?,
+      code: json['code'] as String?,
+      flag: json['flag'] as String?,
     )
       ..get = json['get'] as String?
-      ..parameters = json['parameters'] as Map<String, dynamic>?
+      ..parameters = json['parameters'] as List<dynamic>?
       ..errors = json['errors'] as List<dynamic>?
       ..results = json['results'] as int?
       ..paging = json['paging'] == null
@@ -97,7 +97,7 @@ LeaguesResponse _$LeaguesResponseFromJson(Map<String, dynamic> json) =>
           : CountryResponse.fromJson(json['country'] as Map<String, dynamic>),
     )
       ..get = json['get'] as String?
-      ..parameters = json['parameters'] as Map<String, dynamic>?
+      ..parameters = json['parameters'] as List<dynamic>?
       ..errors = json['errors'] as List<dynamic>?
       ..results = json['results'] as int?
       ..paging = json['paging'] == null

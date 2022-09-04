@@ -2,7 +2,7 @@ import 'package:live_soccer/data/network/app_service.dart';
 import 'package:live_soccer/data/response/responses.dart';
 
 abstract class RemoteDataSource {
-  Future<List<CountryResponse>> getCountries();
+  Future<GetCountriesResponse> getCountries();
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -12,7 +12,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   );
 
   @override
-  Future<List<CountryResponse>> getCountries() async {
+  Future<GetCountriesResponse> getCountries() async {
     return await _appService.getCountries();
   }
 }

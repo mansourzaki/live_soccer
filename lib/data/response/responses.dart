@@ -10,7 +10,7 @@ part 'responses.g.dart';
 @JsonSerializable()
 class BaseResponse {
   String? get;
-  Map<String, dynamic>? parameters;
+  List<dynamic>? parameters;
   List<dynamic>? errors;
   int? results;
   Paging? paging;
@@ -50,27 +50,27 @@ class Paging {
 }
 
 @JsonSerializable()
-class CountriesResponse extends BaseResponse {
+class GetCountriesResponse extends BaseResponse {
   @JsonKey(name: "response")
   List<CountryResponse> countries;
 
-  CountriesResponse({required this.countries});
+  GetCountriesResponse({required this.countries});
 
   @override
   Map<String, dynamic> toJson() {
     return _$GetCountriesResponseToJson(this);
   }
 
-  factory CountriesResponse.fromJson(Map<String, dynamic> map) {
+  factory GetCountriesResponse.fromJson(Map<String, dynamic> map) {
     return _$GetCountriesResponseFromJson(map);
   }
 }
 
 @JsonSerializable()
 class CountryResponse extends BaseResponse {
-  String name;
-  String code;
-  String flag;
+  String? name;
+  String? code;
+  String? flag;
 
   CountryResponse({required this.name, required this.code, required this.flag});
 
@@ -82,22 +82,6 @@ class CountryResponse extends BaseResponse {
     return _$CountryResponseFromJson(map);
   }
 }
-// @JsonSerializable()
-// class CountryResponse extends BaseResponse {
-//   String name;
-//   String code;
-//   String flag;
-
-//   CountryResponse({required this.name, required this.code, required this.flag});
-
-//   Map<String, dynamic> toJson() {
-//     return _$CountryResponseToJson(this);
-//   }
-
-//   factory CountryResponse.fromJson(Map<String, dynamic> map) {
-//     return _$CountryResponseFromJson(map);
-//   }
-// }
 
 @JsonSerializable()
 class LeaguesResponse extends BaseResponse {

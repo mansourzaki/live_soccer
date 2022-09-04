@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:live_soccer/app/constants.dart';
 import 'package:live_soccer/domain/entities/entities.dart';
@@ -10,7 +12,7 @@ part 'app_service.g.dart';
 abstract class AppService {
   factory AppService(Dio dio, {String baseUrl}) = _AppService;
   @GET('/countries')
-  Future<List<CountryResponse>> getCountries();
+  Future<GetCountriesResponse> getCountries();
 
   @GET('/leagues')
   Future<List<LeaguesResponse>> getLeagues(

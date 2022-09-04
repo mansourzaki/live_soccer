@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:live_soccer/app/constants.dart';
 import 'package:live_soccer/data/response/responses.dart';
 import 'package:live_soccer/domain/entities/entities.dart';
@@ -13,8 +15,9 @@ extension LeagueResponseMapper on LeagueResponse? {
   }
 }
 
-extension GetCountriesResponseMapper on CountriesResponse? {
+extension GetCountriesResponseMapper on GetCountriesResponse? {
   List<Country> toDomain() {
+    log('message mapper');
     if (this == null) {
       return [];
     } else {
@@ -25,6 +28,7 @@ extension GetCountriesResponseMapper on CountriesResponse? {
 
 extension CountryResponseMapper on CountryResponse? {
   Country toDomain() {
+    log('message mapper2');
     return Country(
         code: this?.code.orEmpty() ?? "",
         flag: this?.flag.orEmpty() ?? "",
