@@ -1,0 +1,410 @@
+{
+    "get": "fixtures/events",
+    "parameters": {
+        "fixture": "867954"
+    },
+    "errors": [],
+    "results": 18,
+    "paging": {
+        "current": 1,
+        "total": 1
+    },
+    "response": [
+        {
+            "time": {
+                "elapsed": 25,
+                "extra": null
+            },
+            "team": {
+                "id": 33,
+                "name": "Manchester United",
+                "logo": "https://media.api-sports.io/football/teams/33.png"
+            },
+            "player": {
+                "id": 903,
+                "name": "Scott McTominay"
+            },
+            "assist": {
+                "id": null,
+                "name": null
+            },
+            "type": "Card",
+            "detail": "Yellow Card",
+            "comments": "Foul"
+        },
+        {
+            "time": {
+                "elapsed": 30,
+                "extra": null
+            },
+            "team": {
+                "id": 51,
+                "name": "Brighton",
+                "logo": "https://media.api-sports.io/football/teams/51.png"
+            },
+            "player": {
+                "id": 18970,
+                "name": "P. Groß"
+            },
+            "assist": {
+                "id": 1469,
+                "name": "D. Welbeck"
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+        },
+        {
+            "time": {
+                "elapsed": 39,
+                "extra": null
+            },
+            "team": {
+                "id": 51,
+                "name": "Brighton",
+                "logo": "https://media.api-sports.io/football/teams/51.png"
+            },
+            "player": {
+                "id": 18970,
+                "name": "P. Groß"
+            },
+            "assist": {
+                "id": null,
+                "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+        },
+        {
+            "time": {
+                "elapsed": 45,
+                "extra": 2
+            },
+            "team": {
+                "id": 33,
+                "name": "Manchester United",
+                "logo": "https://media.api-sports.io/football/teams/33.png"
+            },
+            "player": {
+                "id": 2467,
+                "name": "Lisandro Martínez"
+            },
+            "assist": {
+                "id": null,
+                "name": null
+            },
+            "type": "Card",
+            "detail": "Yellow Card",
+            "comments": "Foul"
+        },
+        {
+            "time": {
+                "elapsed": 53,
+                "extra": null
+            },
+            "team": {
+                "id": 33,
+                "name": "Manchester United",
+                "logo": "https://media.api-sports.io/football/teams/33.png"
+            },
+            "player": {
+                "id": 2935,
+                "name": "Harry Maguire"
+            },
+            "assist": {
+                "id": null,
+                "name": null
+            },
+            "type": "Card",
+            "detail": "Yellow Card",
+            "comments": "Argument"
+        },
+        {
+            "time": {
+                "elapsed": 53,
+                "extra": null
+            },
+            "team": {
+                "id": 51,
+                "name": "Brighton",
+                "logo": "https://media.api-sports.io/football/teams/51.png"
+            },
+            "player": {
+                "id": 1946,
+                "name": "Leandro Trossard"
+            },
+            "assist": {
+                "id": null,
+                "name": null
+            },
+            "type": "Card",
+            "detail": "Yellow Card",
+            "comments": "Argument"
+        },
+        {
+            "time": {
+                "elapsed": 53,
+                "extra": null
+            },
+            "team": {
+                "id": 33,
+                "name": "Manchester United",
+                "logo": "https://media.api-sports.io/football/teams/33.png"
+            },
+            "player": {
+                "id": 905,
+                "name": "Fred"
+            },
+            "assist": {
+                "id": 874,
+                "name": "Cristiano Ronaldo"
+            },
+            "type": "subst",
+            "detail": "Substitution 1",
+            "comments": null
+        },
+        {
+            "time": {
+                "elapsed": 68,
+                "extra": null
+            },
+            "team": {
+                "id": 33,
+                "name": "Manchester United",
+                "logo": "https://media.api-sports.io/football/teams/33.png"
+            },
+            "player": {
+                "id": 6716,
+                "name": "A. Mac Allister"
+            },
+            "assist": {
+                "id": null,
+                "name": null
+            },
+            "type": "Goal",
+            "detail": "Own Goal",
+            "comments": null
+        },
+        {
+            "time": {
+                "elapsed": 69,
+                "extra": null
+            },
+            "team": {
+                "id": 51,
+                "name": "Brighton",
+                "logo": "https://media.api-sports.io/football/teams/51.png"
+            },
+            "player": {
+                "id": 18959,
+                "name": "Robert Sánchez"
+            },
+            "assist": {
+                "id": null,
+                "name": null
+            },
+            "type": "Var",
+            "detail": "Goal confirmed",
+            "comments": null
+        },
+        {
+            "time": {
+                "elapsed": 74,
+                "extra": null
+            },
+            "team": {
+                "id": 33,
+                "name": "Manchester United",
+                "logo": "https://media.api-sports.io/football/teams/33.png"
+            },
+            "player": {
+                "id": 891,
+                "name": "Luke Shaw"
+            },
+            "assist": {
+                "id": null,
+                "name": null
+            },
+            "type": "Card",
+            "detail": "Yellow Card",
+            "comments": "Foul"
+        },
+        {
+            "time": {
+                "elapsed": 75,
+                "extra": null
+            },
+            "team": {
+                "id": 51,
+                "name": "Brighton",
+                "logo": "https://media.api-sports.io/football/teams/51.png"
+            },
+            "player": {
+                "id": 1946,
+                "name": "L. Trossard"
+            },
+            "assist": {
+                "id": 138815,
+                "name": "T. Lamptey"
+            },
+            "type": "subst",
+            "detail": "Substitution 1",
+            "comments": null
+        },
+        {
+            "time": {
+                "elapsed": 76,
+                "extra": null
+            },
+            "team": {
+                "id": 51,
+                "name": "Brighton",
+                "logo": "https://media.api-sports.io/football/teams/51.png"
+            },
+            "player": {
+                "id": 295,
+                "name": "A. Lallana"
+            },
+            "assist": {
+                "id": 1093,
+                "name": "E. Mwepu"
+            },
+            "type": "subst",
+            "detail": "Substitution 2",
+            "comments": null
+        },
+        {
+            "time": {
+                "elapsed": 78,
+                "extra": null
+            },
+            "team": {
+                "id": 33,
+                "name": "Manchester United",
+                "logo": "https://media.api-sports.io/football/teams/33.png"
+            },
+            "player": {
+                "id": 903,
+                "name": "S. McTominay"
+            },
+            "assist": {
+                "id": 547,
+                "name": "D. van de Beek"
+            },
+            "type": "subst",
+            "detail": "Substitution 2",
+            "comments": null
+        },
+        {
+            "time": {
+                "elapsed": 90,
+                "extra": null
+            },
+            "team": {
+                "id": 33,
+                "name": "Manchester United",
+                "logo": "https://media.api-sports.io/football/teams/33.png"
+            },
+            "player": {
+                "id": 891,
+                "name": "L. Shaw"
+            },
+            "assist": {
+                "id": 37145,
+                "name": "T. Malacia"
+            },
+            "type": "subst",
+            "detail": "Substitution 3",
+            "comments": null
+        },
+        {
+            "time": {
+                "elapsed": 90,
+                "extra": null
+            },
+            "team": {
+                "id": 33,
+                "name": "Manchester United",
+                "logo": "https://media.api-sports.io/football/teams/33.png"
+            },
+            "player": {
+                "id": 1485,
+                "name": "Bruno Fernandes"
+            },
+            "assist": {
+                "id": 284324,
+                "name": "Alejandro Garnacho"
+            },
+            "type": "subst",
+            "detail": "Substitution 4",
+            "comments": null
+        },
+        {
+            "time": {
+                "elapsed": 90,
+                "extra": null
+            },
+            "team": {
+                "id": 33,
+                "name": "Manchester United",
+                "logo": "https://media.api-sports.io/football/teams/33.png"
+            },
+            "player": {
+                "id": 18,
+                "name": "J. Sancho"
+            },
+            "assist": {
+                "id": 153430,
+                "name": "A. Elanga"
+            },
+            "type": "subst",
+            "detail": "Substitution 5",
+            "comments": null
+        },
+        {
+            "time": {
+                "elapsed": 90,
+                "extra": 1
+            },
+            "team": {
+                "id": 51,
+                "name": "Brighton",
+                "logo": "https://media.api-sports.io/football/teams/51.png"
+            },
+            "player": {
+                "id": 18973,
+                "name": "S. March"
+            },
+            "assist": {
+                "id": 152953,
+                "name": "L. Colwill"
+            },
+            "type": "subst",
+            "detail": "Substitution 3",
+            "comments": null
+        },
+        {
+            "time": {
+                "elapsed": 90,
+                "extra": 5
+            },
+            "team": {
+                "id": 51,
+                "name": "Brighton",
+                "logo": "https://media.api-sports.io/football/teams/51.png"
+            },
+            "player": {
+                "id": 1469,
+                "name": "D. Welbeck"
+            },
+            "assist": {
+                "id": 26475,
+                "name": "D. Undav"
+            },
+            "type": "subst",
+            "detail": "Substitution 4",
+            "comments": null
+        }
+    ]
+}
