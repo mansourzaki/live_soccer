@@ -48,6 +48,8 @@ dependencies:
   internet_connection_checker: ^0.0.1+4
   pretty_dio_logger: ^1.2.0-beta-1
   get_it: ^7.2.0
+  flutter_riverpod: ^1.0.4
+  flutter_svg: ^1.1.4
 
 dev_dependencies:
   flutter_test:

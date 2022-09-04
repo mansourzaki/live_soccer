@@ -26,11 +26,15 @@ Future<void> initAppModule() async {
 
   instance.registerLazySingleton<Respository>(
       () => RepositoryImpl(instance(), instance()));
+
+  instance.registerFactory<GetCountriesUseCase>(
+      () => GetCountriesUseCase(instance()));
 }
 
 Future<void> initCountriesModule() async {
   // this the module that contains all generic dependencies
-  if(!GetIt.I.isRegistered<GetCountriesUseCase>()){
-    instance.registerFactory<GetCountriesUseCase>(() => GetCountriesUseCase(instance()));
+  if (!GetIt.I.isRegistered<GetCountriesUseCase>()) {
+    instance.registerFactory<GetCountriesUseCase>(
+        () => GetCountriesUseCase(instance()));
   }
 }

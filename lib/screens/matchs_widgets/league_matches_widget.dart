@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:live_soccer/domain/entities/country.dart';
 import 'package:live_soccer/presentation/resourcing/color_manager.dart';
 import 'package:live_soccer/screens/matches_view/match_result_view.dart';
 
 class LeagueMatchesWidget extends StatefulWidget {
-  LeagueMatchesWidget({Key? key}) : super(key: key);
+  List<Country> countriesList;
+  LeagueMatchesWidget({Key? key, required this.countriesList})
+      : super(key: key);
 
   @override
   State<LeagueMatchesWidget> createState() => _LeagueMatchesWidgetState();
@@ -33,7 +37,23 @@ class _LeagueMatchesWidgetState extends State<LeagueMatchesWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 16),
+      margin: EdgeInsets.symmetric(vertical: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Color.fromARGB(255, 27, 26, 26),
+      ),
+      child: ListView.builder(
+        primary: false,
+        itemCount: widget.countriesList.length,
+        itemBuilder: (context, i) =>
+            _buildCountryAnimatedContainer(widget.countriesList[i]),
+      ),
+    );
+  }
+
+  Container _buildCountryAnimatedContainer(Country country) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
       child: Column(
         children: [
           AnimatedContainer(
@@ -45,13 +65,13 @@ class _LeagueMatchesWidgetState extends State<LeagueMatchesWidget> {
                   : BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10)),
-              color: Color.fromARGB(255, 42, 42, 42),
+              color: Color.fromARGB(255, 27, 26, 26),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 10,
               ),
-              child: _buildLeagueHeadder(),
+              child: _buildLeagueHeadder(country),
             ),
           ),
           const SizedBox(
@@ -85,19 +105,19 @@ class _LeagueMatchesWidgetState extends State<LeagueMatchesWidget> {
     );
   }
 
-  Row _buildLeagueHeadder() {
+  Row _buildLeagueHeadder(Country country) {
     return Row(
       children: [
-        const Icon(
-          Icons.star,
-          size: 16,
-          color: ColorManager.grey2,
+        SvgPicture.network(
+          country.flag,
+          width: 16,
+          height: 16,
         ),
         const SizedBox(
           width: 10,
         ),
-        const Text(
-          'Following',
+        Text(
+          country.name,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         const Spacer(),

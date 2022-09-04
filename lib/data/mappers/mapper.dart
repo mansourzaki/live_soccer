@@ -5,6 +5,8 @@ import 'package:live_soccer/data/response/responses.dart';
 import 'package:live_soccer/domain/entities/entities.dart';
 import 'package:live_soccer/app/extensions.dart';
 
+import '../models/network_models.dart';
+
 extension LeagueResponseMapper on LeagueResponse? {
   League toDomain() {
     return League(

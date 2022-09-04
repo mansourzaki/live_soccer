@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:live_soccer/domain/entities/country.dart';
 
+import '../models/network_models.dart';
+
 part 'responses.g.dart';
 
 @JsonSerializable()
@@ -66,22 +68,6 @@ class GetCountriesResponse extends BaseResponse {
   }
 }
 
-@JsonSerializable()
-class CountryResponse extends BaseResponse {
-  String? name;
-  String? code;
-  String? flag;
-
-  CountryResponse({required this.name, required this.code, required this.flag});
-
-  Map<String, dynamic> toJson() {
-    return _$CountryResponseToJson(this);
-  }
-
-  factory CountryResponse.fromJson(Map<String, dynamic> map) {
-    return _$CountryResponseFromJson(map);
-  }
-}
 
 @JsonSerializable()
 class LeaguesResponse extends BaseResponse {
@@ -101,23 +87,3 @@ class LeaguesResponse extends BaseResponse {
   }
 }
 
-@JsonSerializable()
-class LeagueResponse {
-  int? id;
-  String? name;
-  String? type;
-  String? logo;
-  LeagueResponse({
-    this.id,
-    this.name,
-    this.type,
-    this.logo,
-  });
-  Map<String, dynamic> toMap() {
-    return _$LeagueResponseToJson(this);
-  }
-
-  factory LeagueResponse.fromJson(Map<String, dynamic> json) {
-    return _$LeagueResponseFromJson(json);
-  }
-}

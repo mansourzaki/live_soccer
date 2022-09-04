@@ -22,7 +22,7 @@ class RepositoryImpl implements Respository {
       final response = await _remoteDataSource.getCountries();
       log('after print response');
       print(response);
-      return Right([]);
+      return Right(response.toDomain());
     } else {
       return Left(Failure(error: 'fff', code: 500));
     }
