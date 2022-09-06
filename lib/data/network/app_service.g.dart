@@ -34,21 +34,37 @@ class _AppService implements AppService {
   }
 
   @override
-  Future<List<LeaguesResponse>> getLeagues(season, queruies) async {
+  Future<GetCompetitionsResponse> getCompetions(
+      {required season, required queruies}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'season': season};
     queryParameters.addAll(queruies);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<List<dynamic>>(
-        _setStreamType<List<LeaguesResponse>>(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GetCompetitionsResponse>(
             Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/leagues',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) => LeaguesResponse.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = GetCompetitionsResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<GetMatchesResonse> getMatches({required queruies}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queruies);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GetMatchesResonse>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/fixtures',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GetMatchesResonse.fromJson(_result.data!);
     return value;
   }
 

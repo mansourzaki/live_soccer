@@ -10,6 +10,16 @@ extension NonNullString on String? {
   }
 }
 
+extension NonNullList on List? {
+  List orIsEmpty() {
+    if (this == null) {
+      return [];
+    } else {
+      return this!;
+    }
+  }
+}
+
 extension NonNullInteger on int? {
   int orZero() {
     if (this == null) {
@@ -19,5 +29,3 @@ extension NonNullInteger on int? {
     }
   }
 }
-
-

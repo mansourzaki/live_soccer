@@ -1,10 +1,12 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:dio/dio.dart';
 import 'package:live_soccer/app/constants.dart';
 import 'package:live_soccer/domain/entities/entities.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../models/network_models.dart';
 import '../response/responses.dart';
 part 'app_service.g.dart';
 
@@ -15,10 +17,15 @@ abstract class AppService {
   Future<GetCountriesResponse> getCountries();
 
   @GET('/leagues')
-  Future<List<LeaguesResponse>> getLeagues(
-    @Query('season') int season,
-    @Queries() Map<String, dynamic> queruies,
-  );
+  Future<GetCompetitionsResponse> getCompetions({
+    @Query('season') required int season,
+    @Queries() required Map<String, dynamic> queruies,
+  });
+
+  @GET('/fixtures')
+  Future<GetMatchesResonse> getMatches({
+    @Queries() required Map<String, dynamic> queruies,
+  });
 
   //requires one parameter at least
   // @GET('/teams')

@@ -8,7 +8,6 @@ part of 'responses.dart';
 
 BaseResponse _$BaseResponseFromJson(Map<String, dynamic> json) => BaseResponse(
       get: json['get'] as String?,
-      parameters: json['parameters'] as List<dynamic>?,
       errors: json['errors'] as List<dynamic>?,
       results: json['results'] as int?,
       paging: json['paging'] == null
@@ -19,7 +18,6 @@ BaseResponse _$BaseResponseFromJson(Map<String, dynamic> json) => BaseResponse(
 Map<String, dynamic> _$BaseResponseToJson(BaseResponse instance) =>
     <String, dynamic>{
       'get': instance.get,
-      'parameters': instance.parameters,
       'errors': instance.errors,
       'results': instance.results,
       'paging': instance.paging,
@@ -43,7 +41,6 @@ GetCountriesResponse _$GetCountriesResponseFromJson(
           .toList(),
     )
       ..get = json['get'] as String?
-      ..parameters = json['parameters'] as List<dynamic>?
       ..errors = json['errors'] as List<dynamic>?
       ..results = json['results'] as int?
       ..paging = json['paging'] == null
@@ -54,37 +51,8 @@ Map<String, dynamic> _$GetCountriesResponseToJson(
         GetCountriesResponse instance) =>
     <String, dynamic>{
       'get': instance.get,
-      'parameters': instance.parameters,
       'errors': instance.errors,
       'results': instance.results,
       'paging': instance.paging,
       'response': instance.countries,
-    };
-
-LeaguesResponse _$LeaguesResponseFromJson(Map<String, dynamic> json) =>
-    LeaguesResponse(
-      league: json['league'] == null
-          ? null
-          : LeagueResponse.fromJson(json['league'] as Map<String, dynamic>),
-      country: json['country'] == null
-          ? null
-          : CountryResponse.fromJson(json['country'] as Map<String, dynamic>),
-    )
-      ..get = json['get'] as String?
-      ..parameters = json['parameters'] as List<dynamic>?
-      ..errors = json['errors'] as List<dynamic>?
-      ..results = json['results'] as int?
-      ..paging = json['paging'] == null
-          ? null
-          : Paging.fromJson(json['paging'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$LeaguesResponseToJson(LeaguesResponse instance) =>
-    <String, dynamic>{
-      'get': instance.get,
-      'parameters': instance.parameters,
-      'errors': instance.errors,
-      'results': instance.results,
-      'paging': instance.paging,
-      'league': instance.league,
-      'country': instance.country,
     };

@@ -2,11 +2,25 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:live_soccer/app/service_locator.dart';
 import 'package:live_soccer/presentation/resourcing/theme_manager.dart';
-import 'package:live_soccer/screens/main_page.dart';
 
+import 'presentation/screens/main_page.dart';
+// Future<void> _precache() async {
+//     for (String imageUrl in _urls) {
+//       await precachePicture(
+//         NetworkPicture(
+//           SvgPicture.svgByteDecoderBuilder,
+//           imageUrl,
+//         ),
+//         null,
+//       );
+//     }
+//   }
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initAppModule();

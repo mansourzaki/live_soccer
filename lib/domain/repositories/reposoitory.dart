@@ -6,4 +6,8 @@ import '../../data/network/failuer.dart';
 
 abstract class Respository {
   Future<Either<Failure, List<Country>>> getCountries();
+  Future<Either<Failure, List<Competion>>> getCompetions(
+      CompetionsRequest competionsRequest, Map<String, dynamic> map);
+
+  Future<Either<Failure, List<FootballMatch>>> getMatches(Map<String, dynamic> map);
 }

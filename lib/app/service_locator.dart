@@ -8,6 +8,9 @@ import 'package:live_soccer/data/network/network_info.dart';
 import 'package:live_soccer/data/repository/repository_impl.dart';
 import 'package:live_soccer/domain/repositories/reposoitory.dart';
 import 'package:live_soccer/domain/usecases/get_countries_usecase.dart';
+import 'package:live_soccer/domain/usecases/get_matches_usecase.dart';
+
+import '../domain/usecases/get_leagues_usecase.dart';
 
 final instance = GetIt.instance;
 
@@ -29,6 +32,12 @@ Future<void> initAppModule() async {
 
   instance.registerFactory<GetCountriesUseCase>(
       () => GetCountriesUseCase(instance()));
+
+  instance.registerFactory<GetCompetionsUseCase>(
+      () => GetCompetionsUseCase(instance()));
+
+  instance
+      .registerFactory<GetMatchesUsecase>(() => GetMatchesUsecase(instance()));
 }
 
 Future<void> initCountriesModule() async {

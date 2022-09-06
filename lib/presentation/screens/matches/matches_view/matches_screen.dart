@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:live_soccer/app/service_locator.dart';
 import 'package:live_soccer/domain/usecases/get_countries_usecase.dart';
 import 'package:live_soccer/providers/provider.dart';
-import 'package:live_soccer/screens/matchs_widgets/league_matches_widget.dart';
+
+import '../matchs_widgets/league_matches_widget.dart';
 
 class MatchesScreen extends ConsumerStatefulWidget {
   const MatchesScreen({Key? key}) : super(key: key);
@@ -36,10 +40,11 @@ class MatchesScreenState extends ConsumerState<MatchesScreen>
           IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
         ],
       ),
-      body: ref.watch(countriesProvider).when(
+      body: ref.watch(matchesFutureProvider).when(
             data: (data) {
               return LeagueMatchesWidget(
-                countriesList: data,
+                matchesList: data,
+                leaguesList: data.map((e) => e.league).toSet().toList(),
               );
             },
             error: (error, stackTrace) => Center(child: Text('$error')),

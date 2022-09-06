@@ -5,7 +5,7 @@ class ColorManager {
   static Color primaryLight = Color.fromARGB(255, 0, 0, 0);
   static Color secondary = const Color(0xffED9728);
   static Color darkBackground = Color.fromARGB(255, 0, 0, 0);
-
+  static Color background = Color.fromARGB(255, 27, 26, 26);
  
   static const primary = Color.fromARGB(255, 35, 35, 35);
   static const lightPrimary = Color(0x1A80C77B); //opacity 10%

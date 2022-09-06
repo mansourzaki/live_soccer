@@ -2,8 +2,6 @@
 import 'package:dartz/dartz.dart';
 
 import 'package:live_soccer/data/network/failuer.dart';
-import 'package:live_soccer/data/network/requests.dart';
-import 'package:live_soccer/domain/entities/country.dart';
 import 'package:live_soccer/domain/repositories/reposoitory.dart';
 
 class GetCountriesUseCase {

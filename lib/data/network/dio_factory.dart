@@ -16,11 +16,12 @@ class DioFactory {
         sendTimeout: _timeOut,
         receiveTimeout: _timeOut);
 
-    if(!kReleaseMode){
+    if (!kReleaseMode) {
       dio.interceptors.add(PrettyDioLogger(
         requestHeader: true,
         requestBody: true,
-        responseHeader: true
+        responseHeader: true,
+        responseBody: false,
       ));
     }
     return dio;

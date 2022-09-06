@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:live_soccer/screens/matches_view/preview_view.dart';
-import 'package:live_soccer/screens/matches_view/tabel_view.dart';
-import 'package:live_soccer/screens/matchs_widgets/team_widget.dart';
 
-import '../../presentation/resourcing/color_manager.dart';
+import '../../../resourcing/color_manager.dart';
+import '../matchs_widgets/team_widget.dart';
+import 'preview_view.dart';
+import 'tabel_view.dart';
 
 class MatchResultView extends StatefulWidget {
   const MatchResultView({Key? key}) : super(key: key);
@@ -57,8 +55,9 @@ class _MatchResultViewState extends State<MatchResultView>
                   actions: [
                     IconButton(
                         onPressed: () {},
-                        icon: Icon(Icons.star_outline_outlined)),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
+                        icon: const Icon(Icons.star_outline_outlined)),
+                    IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.more_vert)),
                   ],
                   flexibleSpace: FlexibleSpaceBar(
                     background: Padding(
@@ -71,13 +70,13 @@ class _MatchResultViewState extends State<MatchResultView>
                             children: [
                               TeamNameWidget(
                                   image: widget.img, name: 'Manchester'),
-                              Spacer(),
-                              Text(
+                              const Spacer(),
+                              const Text(
                                 '2 - 0',
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 24),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               TeamNameWidget(
                                   image: widget.img, name: 'Manchester'),
                             ],
@@ -89,29 +88,29 @@ class _MatchResultViewState extends State<MatchResultView>
                   bottom: TabBar(
                     controller: _controller,
                     tabs: [
-                      Tab(
+                      const Tab(
                         text: 'Preview',
                       ),
-                      Tab(
+                      const Tab(
                         text: 'Lineup',
                       ),
-                      Tab(
+                      const Tab(
                         text: 'Table',
                       ),
-                      Tab(
+                      const Tab(
                         text: 'H2H',
                       ),
                     ],
                   ),
                   expandedHeight: 240,
                   pinned: true,
-                  backgroundColor: Color.fromARGB(255, 32, 31, 31),
+                  backgroundColor: const Color.fromARGB(255, 32, 31, 31),
                 )
               ];
             },
             body: TabBarView(
               controller: _controller,
-              children: [
+              children: const [
                 PreviewView(),
                 TabelView(),
                 TabelView(),
@@ -123,7 +122,7 @@ class _MatchResultViewState extends State<MatchResultView>
 
 Container buildMatchStatstics() {
   return Container(
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(10)),
       color: ColorManager.primary,
     ),
@@ -131,11 +130,11 @@ Container buildMatchStatstics() {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       child: Column(
         children: [
-          Text(
+          const Text(
             'Average Possession',
             style: TextStyle(color: Colors.white, fontSize: 14),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
@@ -143,12 +142,12 @@ Container buildMatchStatstics() {
               Container(
                 height: 30,
                 width: 170,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(10)),
                     color: Colors.purple),
-                child: Align(
+                child: const Align(
                   alignment: Alignment.centerLeft,
                   child: Text('  49%',
                       style: TextStyle(
@@ -157,16 +156,16 @@ Container buildMatchStatstics() {
                           fontWeight: FontWeight.w800)),
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Container(
                 height: 30,
                 width: 190,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(10),
                         bottomRight: Radius.circular(10)),
                     color: Colors.blue),
-                child: Align(
+                child: const Align(
                   alignment: Alignment.centerRight,
                   child: Text('51%  ',
                       style: TextStyle(
@@ -177,7 +176,7 @@ Container buildMatchStatstics() {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
@@ -185,31 +184,31 @@ Container buildMatchStatstics() {
               Container(
                 height: 25,
                 width: 40,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   color: Color.fromARGB(232, 55, 51, 51),
                 ),
-                child: Center(
+                child: const Center(
                   child: Text('1.17',
                       style: TextStyle(
                         color: Colors.white,
                       )),
                 ),
               ),
-              Spacer(),
-              Text('Expected goals (xG)',
+              const Spacer(),
+              const Text('Expected goals (xG)',
                   style: TextStyle(
                     color: Colors.white,
                   )),
-              Spacer(),
+              const Spacer(),
               Container(
                 height: 25,
                 width: 40,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   color: Color.fromARGB(232, 55, 51, 51),
                 ),
-                child: Center(
+                child: const Center(
                   child: Text('0.48',
                       style: TextStyle(
                         color: Colors.white,
@@ -218,7 +217,7 @@ Container buildMatchStatstics() {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
@@ -226,31 +225,31 @@ Container buildMatchStatstics() {
               Container(
                 height: 25,
                 width: 40,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   color: Color.fromARGB(232, 55, 51, 51),
                 ),
-                child: Center(
+                child: const Center(
                   child: Text('17',
                       style: TextStyle(
                         color: Colors.white,
                       )),
                 ),
               ),
-              Spacer(),
-              Text('Total Shots',
+              const Spacer(),
+              const Text('Total Shots',
                   style: TextStyle(
                     color: Colors.white,
                   )),
-              Spacer(),
+              const Spacer(),
               Container(
                 height: 25,
                 width: 40,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   color: Color.fromARGB(232, 55, 51, 51),
                 ),
-                child: Center(
+                child: const Center(
                   child: Text('5',
                       style: TextStyle(
                         color: Colors.white,
@@ -259,7 +258,7 @@ Container buildMatchStatstics() {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
@@ -267,31 +266,31 @@ Container buildMatchStatstics() {
               Container(
                 height: 25,
                 width: 40,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   color: Color.fromARGB(232, 55, 51, 51),
                 ),
-                child: Center(
+                child: const Center(
                   child: Text('5',
                       style: TextStyle(
                         color: Colors.white,
                       )),
                 ),
               ),
-              Spacer(),
-              Text('Shots on target',
+              const Spacer(),
+              const Text('Shots on target',
                   style: TextStyle(
                     color: Colors.white,
                   )),
-              Spacer(),
+              const Spacer(),
               Container(
                 height: 25,
                 width: 40,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   color: Color.fromARGB(232, 55, 51, 51),
                 ),
-                child: Center(
+                child: const Center(
                   child: Text('1',
                       style: TextStyle(
                         color: Colors.white,
@@ -308,7 +307,7 @@ Container buildMatchStatstics() {
 
 Container buildMatchFacts() {
   return Container(
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(10)),
       color: ColorManager.primary,
     ),
@@ -354,19 +353,19 @@ Row buildGoalTile({bool isEnd = false}) {
   return Row(
     textDirection: isEnd ? TextDirection.rtl : null,
     children: [
-      Text(
+      const Text(
         '7',
         style: TextStyle(color: ColorManager.white),
       ),
-      SizedBox(
+      const SizedBox(
         width: 10,
       ),
-      Icon(
+      const Icon(
         Icons.sports_soccer,
         color: ColorManager.white,
         size: 20,
       ),
-      SizedBox(
+      const SizedBox(
         width: 10,
       ),
       Column(
@@ -396,21 +395,21 @@ Row buildYellowTile({bool isEnd = false}) {
   return Row(
     textDirection: isEnd ? TextDirection.rtl : null,
     children: [
-      Text(
+      const Text(
         '88',
         style: TextStyle(color: ColorManager.white),
       ),
-      SizedBox(
+      const SizedBox(
         width: 10,
       ),
       Image.network(
         'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Yellow_card.svg/1574px-Yellow_card.svg.png',
         width: 20,
       ),
-      SizedBox(
+      const SizedBox(
         width: 10,
       ),
-      Text(
+      const Text(
         'Cristiano Ronaldo',
         style: TextStyle(color: ColorManager.white),
       ),
@@ -422,11 +421,11 @@ Row buildChangingTile({bool isEnd = false}) {
   return Row(
     textDirection: isEnd ? TextDirection.rtl : null,
     children: [
-      Text(
+      const Text(
         '58',
         style: TextStyle(color: ColorManager.white),
       ),
-      SizedBox(
+      const SizedBox(
         width: 10,
       ),
       Column(
@@ -435,42 +434,42 @@ Row buildChangingTile({bool isEnd = false}) {
         children: [
           Text.rich(
             textDirection: isEnd ? TextDirection.ltr : TextDirection.rtl,
-            style: TextStyle(color: ColorManager.white),
+            style: const TextStyle(color: ColorManager.white),
             TextSpan(text: 'Casemero', children: [
-              TextSpan(text: '    '),
+              const TextSpan(text: '    '),
               WidgetSpan(
                   child: CircleAvatar(
                 maxRadius: 8,
+                backgroundColor: Colors.green,
                 child: Icon(
                   isEnd ? Icons.arrow_back : Icons.arrow_forward,
                   size: 10,
                 ),
-                backgroundColor: Colors.green,
               ))
             ]),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Text.rich(
             textDirection: isEnd ? TextDirection.ltr : TextDirection.rtl,
-            style: TextStyle(color: ColorManager.white),
+            style: const TextStyle(color: ColorManager.white),
             TextSpan(text: 'Varane', children: [
-              TextSpan(text: '    '),
+              const TextSpan(text: '    '),
               WidgetSpan(
                   child: CircleAvatar(
                 maxRadius: 8,
+                backgroundColor: Colors.red,
                 child: Icon(
                   isEnd ? Icons.arrow_forward : Icons.arrow_back,
                   size: 10,
                 ),
-                backgroundColor: Colors.red,
               ))
             ]),
           ),
         ],
       ),
-      SizedBox(
+      const SizedBox(
         width: 10,
       ),
     ],
@@ -479,7 +478,7 @@ Row buildChangingTile({bool isEnd = false}) {
 
 Container buildManOfTheMatch(String img) {
   return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
         color: ColorManager.primary,
       ),
@@ -488,7 +487,7 @@ Container buildManOfTheMatch(String img) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Player of The match',
               style: TextStyle(color: Colors.white, fontSize: 16),
             ), //Todo POF
@@ -497,7 +496,7 @@ Container buildManOfTheMatch(String img) {
                   height: 115,
                   child: Stack(
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 30,
                         backgroundImage: NetworkImage(
                             'https://cdn.resfu.com/img_data/players/big/776260.jpg'),
@@ -507,14 +506,14 @@ Container buildManOfTheMatch(String img) {
                           child: Container(
                               height: 20,
                               width: 40,
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 4, vertical: 2),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Colors.blue,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Text.rich(TextSpan(
                                     style: TextStyle(color: ColorManager.white),
                                     text: '8.4',
@@ -531,12 +530,12 @@ Container buildManOfTheMatch(String img) {
                               )))
                     ],
                   )),
-              title: Text(
+              title: const Text(
                 'Ansu Fati',
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
               subtitle: Text.rich(TextSpan(
-                  style: TextStyle(color: ColorManager.white),
+                  style: const TextStyle(color: ColorManager.white),
                   children: [
                     WidgetSpan(
                         alignment: PlaceholderAlignment.middle,
@@ -545,7 +544,7 @@ Container buildManOfTheMatch(String img) {
                           img,
                           width: 20,
                         )),
-                    TextSpan(text: '  Manchester United')
+                    const TextSpan(text: '  Manchester United')
                   ])),
             )
           ],
@@ -566,13 +565,13 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
           AnimatedContainer(
             duration: const Duration(milliseconds: 150),
             height: progress,
-            child: ColoredBox(
-              color: const Color(0xBE7A81FF),
+            child: const ColoredBox(
+              color: Color(0xBE7A81FF),
             ),
           ),
           AnimatedContainer(
             duration: const Duration(milliseconds: 150),
-            color: Color.fromARGB(255, 22, 22, 21),
+            color: const Color.fromARGB(255, 22, 22, 21),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -583,12 +582,12 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
                       child: Image.network(
                           'https://upload.wikimedia.org/wikipedia/hif/f/ff/Manchester_United_FC_crest.png'),
                     ),
-                    Spacer(),
-                    Text(
+                    const Spacer(),
+                    const Text(
                       '2 - 0',
                       style: TextStyle(color: Colors.white, fontSize: 24),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     SizedBox(
                       width: 50,
                       height: 50,
@@ -602,7 +601,7 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
           AppBar(
             backgroundColor: Colors.transparent,
-            leading: BackButton(),
+            leading: const BackButton(),
             actions: [
               IconButton(
                 icon: const Icon(Icons.star_border_outlined),

@@ -12,13 +12,12 @@ part 'responses.g.dart';
 @JsonSerializable()
 class BaseResponse {
   String? get;
-  List<dynamic>? parameters;
+
   List<dynamic>? errors;
   int? results;
   Paging? paging;
   BaseResponse({
     this.get,
-    this.parameters,
     this.errors,
     this.results,
     this.paging,
@@ -67,23 +66,3 @@ class GetCountriesResponse extends BaseResponse {
     return _$GetCountriesResponseFromJson(map);
   }
 }
-
-
-@JsonSerializable()
-class LeaguesResponse extends BaseResponse {
-  LeagueResponse? league;
-  CountryResponse? country;
-  LeaguesResponse({
-    this.league,
-    this.country,
-  });
-
-  Map<String, dynamic> toMap() {
-    return _$LeaguesResponseToJson(this);
-  }
-
-  factory LeaguesResponse.fromJson(Map<String, dynamic> json) {
-    return _$LeaguesResponseFromJson(json);
-  }
-}
-
