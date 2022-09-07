@@ -21,16 +21,27 @@ final matchesUsecaseProvider = Provider<GetMatchesUsecase>(
   },
 );
 
+final searchProvider = StateProvider((ref) => '');
+
 final matchesProvider =
-    StateNotifierProvider<MachesProvider, List<FootballMatch>>(
-  (ref) => MachesProvider(),
+    StateNotifierProvider<MachesNotifier, List<FootballMatch>>(
+  (ref) => MachesNotifier(),
 );
 
-class MachesProvider extends StateNotifier<List<FootballMatch>> {
-  MachesProvider() : super([]);
+class MachesNotifier extends StateNotifier<List<FootballMatch>> {
+  MachesNotifier() : super([]);
 
-  void getToday() async {
-    state = [...state];
+  void fetchMatches(Map<String, dynamic> m) async {
+    final result = await instance.get<GetMatchesUsecase>().execute(m);
+    state = result.fold((l) => <FootballMatch>[], (r) => <FootballMatch>[...r]);
+  }
+
+  void searchFor(String chars) {
+    state = state
+        .where((element) =>
+            element.league.name.contains(chars) ||
+            element.league.country!.contains(chars))
+        .toList();
   }
 
   void getTomorrow() {}
@@ -60,18 +71,27 @@ final countriesProvider = FutureProvider.autoDispose(
   },
 );
 
-final matchesFutureProvider = FutureProvider.autoDispose(
-  (ref) async {
+final matchesFutureProvider = FutureProvider.autoDispose
+    .family<List<FootballMatch>, Map<String, dynamic>>(
+  (ref, map) async {
     final usecase = ref.watch(matchesUsecaseProvider);
 
-    final countris =
-        await usecase.execute({'season': 2022, 'date': '2022-09-06'});
+    final matches = await usecase.execute(map);
     ref.maintainState = true;
 
-    return countris.fold(
-        (l) => <FootballMatch>[], (r) => <FootballMatch>[...r]);
+    return matches.fold((l) => <FootballMatch>[], (r) => <FootballMatch>[...r]);
   },
 );
+
+// final matchesFuturePdrovider =StreamProvider((ref) {
+//    final usecase = ref.watch(matchesUsecaseProvider);
+
+//     final matches =
+//         await usecase.execute({'season': 2022, 'date': '2022-09-06'});
+//     ref.maintainState = true;
+
+//     return matches.fold((l) => <FootballMatch>[], (r) => <FootballMatch>[...r]);
+// },);
 
 final leaguesProvider = FutureProvider.autoDispose(
   (ref) async {

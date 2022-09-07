@@ -72,7 +72,7 @@ extension CountryResponseMapper on CountryResponse? {
     log('message mapper2');
     return Country(
         code: this?.code.orEmpty() ?? "",
-        flag: this?.flag.orEmpty() ?? Constants.worldLogo,
+        flag: this?.flag?.orEmpty() ?? Constants.worldLogo,
         name: this?.name.orEmpty() ?? "");
   }
 }
