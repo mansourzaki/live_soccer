@@ -10,7 +10,7 @@ part of 'app_service.dart';
 
 class _AppService implements AppService {
   _AppService(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'https://v3.football.api-sports.io';
+    baseUrl ??= 'https://api-football-v1.p.rapidapi.com/v3';
   }
 
   final Dio _dio;
@@ -65,6 +65,42 @@ class _AppService implements AppService {
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = GetMatchesResonse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<GetMatcheEventResponse> getMatchEvents({required fixture}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'id': fixture};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GetMatcheEventResponse>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/fixtures',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GetMatcheEventResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<GetStandingsResponse> getStandings(
+      {required league, required season}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'league': league,
+      r'season': season
+    };
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GetStandingsResponse>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/standings',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GetStandingsResponse.fromJson(_result.data!);
     return value;
   }
 

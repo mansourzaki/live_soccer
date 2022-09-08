@@ -27,6 +27,17 @@ abstract class AppService {
     @Queries() required Map<String, dynamic> queruies,
   });
 
+  @GET('/fixtures')
+  Future<GetMatcheEventResponse> getMatchEvents({
+    @Query('id') required int fixture,
+  });
+
+  @GET('/standings')
+  Future<GetStandingsResponse> getStandings({
+    @Query('league') required int league,
+    @Query('season') required int season,
+  });
+
   //requires one parameter at least
   // @GET('/teams')
   // Future<List<Teams>> getTeams(

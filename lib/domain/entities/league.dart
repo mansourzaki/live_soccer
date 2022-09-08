@@ -21,6 +21,7 @@ class League extends Equatable {
   final String? flag;
   final int? season;
   final String? round;
+  final List<Standing>? standings;
 
   const League(
       {required this.id,
@@ -30,7 +31,9 @@ class League extends Equatable {
       this.country,
       this.flag,
       this.season,
-      this.round});
+      this.round,
+      this.standings
+      });
 
   @override
   List<Object?> get props => [id, name, type, logo];

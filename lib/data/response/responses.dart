@@ -13,12 +13,10 @@ part 'responses.g.dart';
 class BaseResponse {
   String? get;
 
-  List<dynamic>? errors;
   int? results;
   Paging? paging;
   BaseResponse({
     this.get,
-    this.errors,
     this.results,
     this.paging,
   });

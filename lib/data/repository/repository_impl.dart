@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:live_soccer/data/data_source/remote_data_source.dart';
 import 'package:live_soccer/data/mappers/mapper.dart';
+import 'package:live_soccer/data/models/network_models.dart';
 import 'package:live_soccer/data/network/network_info.dart';
 import 'package:live_soccer/domain/entities/country.dart';
 import 'package:live_soccer/data/network/requests.dart';
@@ -55,6 +56,38 @@ class RepositoryImpl implements Respository {
       final response = await _remoteDataSource.getMatches(map);
       log('after print response');
       print(response);
+      return Right(response.toDomain());
+    } else {
+      return Left(Failure(error: 'fff', code: 500));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<MatchEvent>>> getMatchEvents(int fixture) async {
+    log('get matches');
+    if (await _networkInfo.isConnected) {
+      log('before print response');
+      final response = await _remoteDataSource.getMatcheEvents(fixture);
+      log('after print response');
+      print(response);
+
+      return Right([response.toDomain()!]);
+    } else {
+      return Left(Failure(error: 'fff', code: 500));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Standing>>> getStandings(
+      StandingsRequest request) async {
+    log('get standings');
+    if (await _networkInfo.isConnected) {
+       log('get standings2');
+      final response = await _remoteDataSource.getStandings(request);
+       log('get standings3');
+       log(response.toString());
+     // log(response.standings!.length.toString());
+
       return Right(response.toDomain());
     } else {
       return Left(Failure(error: 'fff', code: 500));

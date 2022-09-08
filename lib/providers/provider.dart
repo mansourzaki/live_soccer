@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:live_soccer/app/service_locator.dart';
@@ -7,7 +9,11 @@ import 'package:live_soccer/domain/entities/country.dart';
 import 'package:live_soccer/domain/entities/entities.dart';
 import 'package:live_soccer/domain/usecases/get_countries_usecase.dart';
 import 'package:live_soccer/domain/usecases/get_leagues_usecase.dart';
+import 'package:live_soccer/domain/usecases/get_match_events_usecase.dart';
 import 'package:live_soccer/domain/usecases/get_matches_usecase.dart';
+import 'package:live_soccer/domain/usecases/get_standings_usecase.dart';
+
+import '../data/network/requests.dart';
 
 final countrisUsecaseProvider = Provider<GetCountriesUseCase>(
   (ref) {
@@ -21,6 +27,18 @@ final matchesUsecaseProvider = Provider<GetMatchesUsecase>(
   },
 );
 
+final matcheEventUsecaseProvider = Provider<GetMatchEventsUsecase>(
+  (ref) {
+    return instance.get<GetMatchEventsUsecase>();
+  },
+);
+
+final standingsUsecaseProvider = Provider<GetStandingsUsecase>(
+  (ref) {
+    return instance.get<GetStandingsUsecase>();
+  },
+);
+
 final searchProvider = StateProvider((ref) => '');
 
 final matchesProvider =
@@ -30,22 +48,32 @@ final matchesProvider =
 
 class MachesNotifier extends StateNotifier<List<FootballMatch>> {
   MachesNotifier() : super([]);
-
+  List<FootballMatch> filterdList = [];
   void fetchMatches(Map<String, dynamic> m) async {
+    //  state.clear();
     final result = await instance.get<GetMatchesUsecase>().execute(m);
     state = result.fold((l) => <FootballMatch>[], (r) => <FootballMatch>[...r]);
+    print(result.toString() + 'sss');
   }
 
   void searchFor(String chars) {
-    state = state
+    filterdList = state
         .where((element) =>
             element.league.name.contains(chars) ||
             element.league.country!.contains(chars))
         .toList();
   }
 
+  void updateLive() async {
+    state.where((element) => element.fixture.status.elapsed > 0).forEach((e) {
+      e.fixture.status.elapsed++;
+    });
+  }
+
   void getTomorrow() {}
-  void getSpecficData(String date) {}
+  void getSpecficData(String date) {
+    state.where((element) => element.fixture.date == date);
+  }
 }
 
 // final countriesProvider = Provider<List<Country>>(
@@ -83,15 +111,18 @@ final matchesFutureProvider = FutureProvider.autoDispose
   },
 );
 
-// final matchesFuturePdrovider =StreamProvider((ref) {
-//    final usecase = ref.watch(matchesUsecaseProvider);
+final matcheEventsFutureProvider =
+    FutureProvider.autoDispose.family<List<MatchEvent>, int>(
+  (ref, id) async {
+    final usecase = ref.watch(matcheEventUsecaseProvider);
+    log('exec1');
+    final matches = await usecase.execute(id);
 
-//     final matches =
-//         await usecase.execute({'season': 2022, 'date': '2022-09-06'});
-//     ref.maintainState = true;
+    log('exec2');
 
-//     return matches.fold((l) => <FootballMatch>[], (r) => <FootballMatch>[...r]);
-// },);
+    return matches.fold((l) => <MatchEvent>[], (r) => <MatchEvent>[...r]);
+  },
+);
 
 final leaguesProvider = FutureProvider.autoDispose(
   (ref) async {
@@ -101,5 +132,17 @@ final leaguesProvider = FutureProvider.autoDispose(
         .execute(GetCompetionsUseCaseInput(2022, {'current': true}));
     ref.maintainState = true;
     return leagues.fold((l) => <Competion>[], (r) => <Competion>[...r]);
+  },
+);
+
+final standingsProvider =
+    FutureProvider.family<List<Standing>, StandingsRequest>(
+  (ref, request) async {
+    print('in riverpod');
+    final usecase = ref.watch(standingsUsecaseProvider);
+
+    final leagues = await usecase.execute(request);
+    //   ref.maintainState = true;
+    return leagues.fold((l) => [], (r) => [...r]);
   },
 );

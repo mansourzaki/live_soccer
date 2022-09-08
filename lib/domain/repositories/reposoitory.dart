@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:live_soccer/data/models/network_models.dart';
 import 'package:live_soccer/data/network/requests.dart';
 import 'package:live_soccer/domain/entities/entities.dart';
 
@@ -10,4 +11,6 @@ abstract class Respository {
       CompetionsRequest competionsRequest, Map<String, dynamic> map);
 
   Future<Either<Failure, List<FootballMatch>>> getMatches(Map<String, dynamic> map);
+  Future<Either<Failure, List<MatchEvent>>> getMatchEvents(int fixture);
+  Future<Either<Failure, List<Standing>>> getStandings(StandingsRequest request);
 }

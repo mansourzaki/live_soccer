@@ -9,6 +9,8 @@ abstract class RemoteDataSource {
   Future<GetCompetitionsResponse> getCompetions(
       CompetionsRequest leaguesRequest, Map<String, dynamic> map);
   Future<GetMatchesResonse> getMatches(Map<String, dynamic> map);
+  Future<GetMatcheEventResponse> getMatcheEvents(int fixtrue);
+  Future<GetStandingsResponse> getStandings(StandingsRequest request);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -32,5 +34,16 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<GetMatchesResonse> getMatches(Map<String, dynamic> map) async {
     return await _appService.getMatches(queruies: map);
+  }
+
+  @override
+  Future<GetMatcheEventResponse> getMatcheEvents(int fixtrue) async {
+    return await _appService.getMatchEvents(fixture: fixtrue);
+  }
+
+  @override
+  Future<GetStandingsResponse> getStandings(StandingsRequest request) async {
+    return await _appService.getStandings(
+        league: request.league, season: request.season);
   }
 }

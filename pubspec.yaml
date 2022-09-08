@@ -53,6 +53,9 @@ dependencies:
   cached_network_image: ^3.2.1
   flutter_svg_provider: ^1.0.3
   intl: ^0.17.0
+  syncfusion_flutter_datepicker: ^20.2.48
+  hive: ^2.2.3
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +82,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/api/test.json
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

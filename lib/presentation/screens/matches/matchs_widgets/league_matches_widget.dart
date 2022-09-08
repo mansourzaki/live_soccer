@@ -48,14 +48,13 @@ class _LeagueMatchesWidgetState extends State<LeagueMatchesWidget> {
       physics: const BouncingScrollPhysics(),
       primary: false,
       itemCount: widget.leaguesList.length,
-      itemBuilder: (context, i) =>  MatchesAnimatedContainer(
-              footballMatches: widget.matchesList
-                  .where((element) =>
-                      element.league.id == widget.leaguesList[i].id)
-                  .toList(),
-              league: widget.leaguesList[i],
-              following: false,
-            ),
+      itemBuilder: (context, i) => MatchesAnimatedContainer(
+        footballMatches: widget.matchesList
+            .where((element) => element.league.id == widget.leaguesList[i].id)
+            .toList(),
+        league: widget.leaguesList[i],
+        following: false,
+      ),
     );
   }
 }
@@ -174,7 +173,8 @@ class FixtureWidget extends ConsumerWidget {
         onTap: () {
           log(footballMatch.fixture.id.toString());
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const MatchResultView(),
+            builder: (context) =>
+                MatchResultView(fixtureId: footballMatch.fixture.id),
           ));
         },
         child: Row(
@@ -234,7 +234,7 @@ class FixtureWidget extends ConsumerWidget {
               child: Text(
                 footballMatch.fixture.status.short == 'NS'
                     ? getTime()
-                    : '${footballMatch.goals.home} - ${footballMatch.goals.home}',
+                    : '${footballMatch.goals.home} - ${footballMatch.goals.away}',
                 style: TextStyle(
                     color: footballMatch.fixture.status.short != 'NS'
                         ? Colors.white

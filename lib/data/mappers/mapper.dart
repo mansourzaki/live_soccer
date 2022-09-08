@@ -52,8 +52,36 @@ extension GetMatchesResponseMapper on GetMatchesResonse? {
     if (this == null) {
       return [];
     } else {
-      log('mapper of getleague respone');
+      //log('mapper of getleague respone');
       return this!.matches!.map((e) => e.toDomain()).toList();
+      // return this!.leagues?.map((e) => e.toDomain()).toList() ?? [];
+    }
+  }
+}
+
+extension GetStandingsResponseMapper on GetStandingsResponse? {
+  List<Standing> toDomain() {
+    print('message mapper in standing mapper');
+    if (this == null) {
+      return [];
+    } else {
+      log('standings');
+      // log(this!.standings!.standings.toDomain());
+      //log('mapper of getleague respone');
+      return this!.standings!.first.league!.standings!.first.map((e) => e.toDomain()).toList();
+      // return this!.leagues?.map((e) => e.toDomain()).toList() ?? [];
+    }
+  }
+}
+
+extension GetMatcheEventResponseMapper on GetMatcheEventResponse? {
+  MatchEvent? toDomain() {
+    log('message mapper');
+    if (this == null) {
+      return null;
+    } else {
+      //log('mapper of getleague respone');
+      return this!.matches![0].toDomain();
       // return this!.leagues?.map((e) => e.toDomain()).toList() ?? [];
     }
   }
@@ -64,6 +92,33 @@ extension CompetionResponseMapper on CompetitionResponse? {
     return Competion(
         country: this!.countryResponse.toDomain(),
         league: this!.leagueResponse.toDomain());
+  }
+}
+
+extension StandingResponseMapper on StandingResponse? {
+  Standing toDomain() {
+    return Standing(
+        rank: this?.rank.orZero() ?? Constants.ZERO,
+        team: this!.team.toDomain(),
+        points: this?.points.orZero() ?? Constants.ZERO,
+        goalsDiff: this?.goalsDiff.orZero() ?? Constants.ZERO,
+        group: this?.group.orEmpty() ?? Constants.EMPTY,
+        form: this?.group.orEmpty() ?? Constants.EMPTY,
+        status: this?.group.orEmpty() ?? Constants.EMPTY,
+        description: this?.group.orEmpty() ?? Constants.EMPTY,
+        all: this!.all.toDomain());
+  }
+}
+
+extension AllResponseMapper on AllResponse? {
+  All toDomain() {
+    final x = GoalsResponse(home: 2, away: 3);
+    return All(
+        draw: this?.draw.orZero() ?? Constants.ZERO,
+        win: this?.win.orZero() ?? Constants.ZERO,
+        goals: x.toDomain(),
+        lose: this?.lose.orZero() ?? Constants.ZERO,
+        played: this?.played.orZero() ?? Constants.ZERO);
   }
 }
 
@@ -79,12 +134,135 @@ extension CountryResponseMapper on CountryResponse? {
 
 extension MatchResponseMapper on MatchResponse? {
   FootballMatch toDomain() {
-    log('mapper of getleague respone');
+    //log('mapper of getleague respone');
     return FootballMatch(
         fixture: this!.fixture.toDomain(),
         league: this!.league.toDomain(),
         teams: this!.teams.toDomain(),
         goals: this!.goals.toDomain());
+  }
+}
+
+extension MatchEventsMapper on MatchEventResponse? {
+  MatchEvent toDomain() {
+    //log('mapper of getleague respone');
+    return MatchEvent(
+      fixture: this!.fixture.toDomain(),
+      league: this!.league.toDomain(),
+      teams: this!.teams.toDomain(),
+      goals: this!.goals.toDomain(),
+      events: this!.events?.map((e) => e.toDomain()).toList(),
+      lineups: this!.lineups?.map((e) => e.toDomain()).toList(),
+      statistics: this!.statistics?.map((e) => e.toDomain()).toList(),
+    );
+  }
+}
+
+extension StatisticResponseMapper on StatisticResponse? {
+  Statistic toDomain() {
+    //log('mapper of getleague respone');
+    return Statistic(
+      type: this!.type.orEmpty(),
+      value: this!.value,
+    );
+  }
+}
+
+extension MatchStatisticsMapper on MatchStatisticsResponse? {
+  MatchStatistics toDomain() {
+    //log('mapper of getleague respone');
+    return MatchStatistics(
+      team: this!.team.toDomain(),
+      statistics: this!.statistics?.map((e) => e.toDomain()).toList(),
+    );
+  }
+}
+
+extension TeamResponseMapper on TeamResponse? {
+  Team toDomain() {
+    //log('mapper of getleague respone');
+    return Team(this?.id.orZero() ?? Constants.ZERO,
+        this?.name ?? Constants.EMPTY, this?.logo.orEmpty() ?? Constants.EMPTY);
+  }
+}
+
+extension CoachResponseMapper on CoachResponse? {
+  Coach toDomain() {
+    //log('mapper of getleague respone');
+    return Coach(
+        id: this?.id.orZero() ?? Constants.ZERO,
+        name: this?.name ?? Constants.EMPTY,
+        photo: this?.photo.orEmpty() ?? Constants.EMPTY);
+  }
+}
+
+extension TimeResponseMapper on TimeResponse? {
+  Time toDomain() {
+    //log('mapper of getleague respone');
+    return Time(
+        elapsed: this?.elapsed.orZero() ?? Constants.ZERO,
+        extra: this?.extra.orZero() ?? Constants.ZERO);
+  }
+}
+
+extension AssistResponseMapper on AssistResponse? {
+  Assist toDomain() {
+    //log('mapper of getleague respone');
+    return Assist(
+        id: this?.id.orZero() ?? Constants.ZERO,
+        name: this?.name.orEmpty() ?? Constants.EMPTY);
+  }
+}
+
+extension SubstitutesMapper on SubstitutesResponse? {
+  Substitutes toDomain() {
+    //log('mapper of getleague respone');
+    return Substitutes(player: this!.player.toDomain());
+  }
+}
+
+extension PlayerResponseMapper on PlayerResponse? {
+  Player toDomain() {
+    //log('mapper of getleague respone');
+    return Player(
+        id: this?.id.orZero() ?? Constants.ZERO,
+        name: this?.name.orEmpty() ?? Constants.EMPTY,
+        number: this?.number.orZero() ?? Constants.ZERO);
+  }
+}
+
+extension LineUpMapper on LineUpResponse? {
+  LineUp toDomain() {
+    //log('mapper of getleague respone');
+    return LineUp(
+      team: this!.team.toDomain(),
+      coach: this!.coach.toDomain(),
+      formation: this!.formation.orEmpty(),
+      startXI: this?.startXI?.map((e) => e.toDomain()).toList(),
+      substitutes: this!.substitutes?.map((e) => e.toDomain()).toList(),
+    );
+  }
+}
+
+extension StartXIResponseMapper on StartXIResponse? {
+  StartXI toDomain() {
+    //log('mapper of getleague respone');
+    return StartXI(player: this!.player.toDomain());
+  }
+}
+
+extension EventsMapper on EventResponse? {
+  Event toDomain() {
+    //log('mapper of getleague respone');
+    return Event(
+      team: this!.team.toDomain(),
+      assist: this!.assist.toDomain(),
+      comments: this?.comments.orEmpty() ?? Constants.EMPTY,
+      detail: this?.detail.orEmpty() ?? Constants.EMPTY,
+      player: this!.player.toDomain(),
+      time: this!.time.toDomain(),
+      type: this?.type.orEmpty() ?? Constants.EMPTY,
+    );
   }
 }
 

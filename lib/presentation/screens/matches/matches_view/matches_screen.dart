@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -9,7 +10,8 @@ import 'package:live_soccer/app/service_locator.dart';
 import 'package:live_soccer/domain/entities/fixtures.dart';
 import 'package:live_soccer/domain/usecases/get_countries_usecase.dart';
 import 'package:live_soccer/providers/provider.dart';
-
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:intl/intl.dart' as intl;
 import '../../../resourcing/color_manager.dart';
 import '../matchs_widgets/league_matches_widget.dart';
 
@@ -21,12 +23,19 @@ class MatchesScreen extends ConsumerStatefulWidget {
 }
 
 class MatchesScreenState extends ConsumerState<MatchesScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  Timer? timer;
+
   late TabController _tabController;
   @override
   void initState() {
     _tabController = TabController(vsync: this, length: 5);
-    ref.read(matchesProvider.notifier).fetchMatches({'live': 'all'});
+    ref
+        .read(matchesProvider.notifier)
+        .fetchMatches({'season': 2022, 'date': '2022-09-08'});
+    log('in init');
+    // timer = Timer.periodic(
+    //     Duration(seconds: 60), (Timer t) =>  ref.read(matchesProvider.notifier).updateLive());
     initCountriesModule();
     super.initState();
   }
@@ -34,38 +43,80 @@ class MatchesScreenState extends ConsumerState<MatchesScreen>
   bool isHidden = false;
 
   @override
+  void dispose() {
+    timer!.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     List<FootballMatch> matches = ref.watch(matchesProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('My League'),
-        actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.schedule)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.calendar_today)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
-        ],
-      ),
-      body: ref
-          .watch(matchesFutureProvider(
-              const {'season': 2022, 'date': '2022-09-06'}))
-          .when(
-            data: (data) {
-              return SingleChildScrollView(
+        appBar: AppBar(
+          title: const Text('Matches'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  ref
+                      .read(matchesProvider.notifier)
+                      .fetchMatches({'live': 'all'});
+                  log('presse');
+                },
+                icon: Icon(Icons.schedule)),
+            IconButton(
+                onPressed: () async {
+                  final DateTime? picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1970),
+                      lastDate: DateTime(2040));
+                  if (picked != null) {
+                    ref.read(matchesProvider.notifier).fetchMatches({
+                      'season': picked.year,
+                      'date': '${picked.year}-0${picked.month}-0${picked.day}'
+                    });
+                  }
+                },
+                icon: Icon(Icons.calendar_today)),
+            //   IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+            // IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
+          ],
+        ),
+        // floatingActionButton: FloatingActionButton(onPressed: () {
+        //   ref
+        //       .read(matchesProvider.notifier)
+        //       .fetchMatches({'season': 2022, 'date': '2022-09-07'});
+        // }),
+        body: matches.isEmpty
+            ? Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
                 child: Column(children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12, left: 14),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        intl.DateFormat('yyyy-MM-dd').format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                                matches[0].fixture.timestamp * 1000)),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: MatchesAnimatedContainer(
-                        footballMatches: data
-                            .where(
-                                (element) => element.league.country == 'spain')
+                        footballMatches: matches
+                            .where((element) => element.league.id == 2)
                             .toList(),
-                        league: data[0].league,
+                        league: matches[0].league,
                         following: true),
                   ),
                   SizedBox(
-                      height: 50,
-                      width: 110,
+                      height: 52,
+                      width: 112,
                       child: ElevatedButton(
                           onPressed: () {
                             isHidden = !isHidden;
@@ -97,16 +148,26 @@ class MatchesScreenState extends ConsumerState<MatchesScreen>
                   isHidden
                       ? SizedBox()
                       : LeagueMatchesWidget(
-                          matchesList: data,
+                          matchesList: matches,
                           leaguesList:
-                              data.map((e) => e.league).toSet().toList(),
+                              matches.map((e) => e.league).toSet().toList(),
                         ),
                 ]),
-              );
-            },
-            error: (error, stackTrace) => Center(child: Text('$error')),
-            loading: () => Center(child: Text('Error')),
-          ),
-    );
+              )
+
+        // ref
+        //     .watch(matchesFutureProvider(
+        //         const {'season': 2022, 'date': '2022-09-06'}))
+        //     .when(
+        //       data: (data) {
+
+        //       },
+
+        //     ),
+        );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
+// 

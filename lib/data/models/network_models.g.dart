@@ -13,7 +13,6 @@ CountryResponse _$CountryResponseFromJson(Map<String, dynamic> json) =>
       flag: json['flag'] as String?,
     )
       ..get = json['get'] as String?
-      ..errors = json['errors'] as List<dynamic>?
       ..results = json['results'] as int?
       ..paging = json['paging'] == null
           ? null
@@ -22,7 +21,6 @@ CountryResponse _$CountryResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CountryResponseToJson(CountryResponse instance) =>
     <String, dynamic>{
       'get': instance.get,
-      'errors': instance.errors,
       'results': instance.results,
       'paging': instance.paging,
       'name': instance.name,
@@ -38,7 +36,6 @@ GetCompetitionsResponse _$GetCompetitionsResponseFromJson(
           .toList(),
     )
       ..get = json['get'] as String?
-      ..errors = json['errors'] as List<dynamic>?
       ..results = json['results'] as int?
       ..paging = json['paging'] == null
           ? null
@@ -48,7 +45,6 @@ Map<String, dynamic> _$GetCompetitionsResponseToJson(
         GetCompetitionsResponse instance) =>
     <String, dynamic>{
       'get': instance.get,
-      'errors': instance.errors,
       'results': instance.results,
       'paging': instance.paging,
       'response': instance.leagues,
@@ -124,6 +120,11 @@ LeagueResponse _$LeagueResponseFromJson(Map<String, dynamic> json) =>
       flag: json['flag'] as String?,
       season: json['season'] as int?,
       round: json['round'] as String?,
+      standings: (json['standings'] as List<dynamic>?)
+          ?.map((e) => (e as List<dynamic>)
+              .map((e) => StandingResponse.fromJson(e as Map<String, dynamic>))
+              .toList())
+          .toList(),
     );
 
 Map<String, dynamic> _$LeagueResponseToJson(LeagueResponse instance) =>
@@ -136,6 +137,7 @@ Map<String, dynamic> _$LeagueResponseToJson(LeagueResponse instance) =>
       'flag': instance.flag,
       'season': instance.season,
       'round': instance.round,
+      'standings': instance.standings,
     };
 
 GetMatchesResonse _$GetMatchesResonseFromJson(Map<String, dynamic> json) =>
@@ -145,7 +147,6 @@ GetMatchesResonse _$GetMatchesResonseFromJson(Map<String, dynamic> json) =>
           .toList(),
     )
       ..get = json['get'] as String?
-      ..errors = json['errors'] as List<dynamic>?
       ..results = json['results'] as int?
       ..paging = json['paging'] == null
           ? null
@@ -154,7 +155,6 @@ GetMatchesResonse _$GetMatchesResonseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$GetMatchesResonseToJson(GetMatchesResonse instance) =>
     <String, dynamic>{
       'get': instance.get,
-      'errors': instance.errors,
       'results': instance.results,
       'paging': instance.paging,
       'response': instance.matches,
@@ -252,4 +252,317 @@ Map<String, dynamic> _$StatusResponseToJson(StatusResponse instance) =>
       'long': instance.long,
       'short': instance.short,
       'elapsed': instance.elapsed,
+    };
+
+MatchEventResponse _$MatchEventResponseFromJson(Map<String, dynamic> json) =>
+    MatchEventResponse(
+      fixture: json['fixture'] == null
+          ? null
+          : FixtureResponse.fromJson(json['fixture'] as Map<String, dynamic>),
+      league: json['league'] == null
+          ? null
+          : LeagueResponse.fromJson(json['league'] as Map<String, dynamic>),
+      teams: json['teams'] == null
+          ? null
+          : TeamsResponse.fromJson(json['teams'] as Map<String, dynamic>),
+      goals: json['goals'] == null
+          ? null
+          : GoalsResponse.fromJson(json['goals'] as Map<String, dynamic>),
+      events: (json['events'] as List<dynamic>?)
+          ?.map((e) => EventResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lineups: (json['lineups'] as List<dynamic>?)
+          ?.map((e) => LineUpResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statistics: (json['statistics'] as List<dynamic>?)
+          ?.map((e) =>
+              MatchStatisticsResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$MatchEventResponseToJson(MatchEventResponse instance) =>
+    <String, dynamic>{
+      'fixture': instance.fixture,
+      'league': instance.league,
+      'teams': instance.teams,
+      'goals': instance.goals,
+      'events': instance.events,
+      'lineups': instance.lineups,
+      'statistics': instance.statistics,
+    };
+
+StandingsResponse _$StandingsResponseFromJson(Map<String, dynamic> json) =>
+    StandingsResponse(
+      league: json['league'] == null
+          ? null
+          : LeagueResponse.fromJson(json['league'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$StandingsResponseToJson(StandingsResponse instance) =>
+    <String, dynamic>{
+      'league': instance.league,
+    };
+
+StandingResponse _$StandingResponseFromJson(Map<String, dynamic> json) =>
+    StandingResponse(
+      json['rank'] as int?,
+      json['team'] == null
+          ? null
+          : TeamResponse.fromJson(json['team'] as Map<String, dynamic>),
+      json['points'] as int?,
+      json['goalsDiff'] as int?,
+      json['group'] as String?,
+      json['form'] as String?,
+      json['status'] as String?,
+      json['description'] as String?,
+      json['all'] == null
+          ? null
+          : AllResponse.fromJson(json['all'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$StandingResponseToJson(StandingResponse instance) =>
+    <String, dynamic>{
+      'rank': instance.rank,
+      'team': instance.team,
+      'points': instance.points,
+      'goalsDiff': instance.goalsDiff,
+      'group': instance.group,
+      'form': instance.form,
+      'status': instance.status,
+      'description': instance.description,
+      'all': instance.all,
+    };
+
+AllResponse _$AllResponseFromJson(Map<String, dynamic> json) => AllResponse(
+      json['played'] as int?,
+      json['win'] as int?,
+      json['draw'] as int?,
+      json['lose'] as int?,
+      json['goals'] == null
+          ? null
+          : GoalsResponse.fromJson(json['goals'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$AllResponseToJson(AllResponse instance) =>
+    <String, dynamic>{
+      'played': instance.played,
+      'win': instance.win,
+      'draw': instance.draw,
+      'lose': instance.lose,
+      'goals': instance.goals,
+    };
+
+MatchStatisticsResponse _$MatchStatisticsResponseFromJson(
+        Map<String, dynamic> json) =>
+    MatchStatisticsResponse(
+      team: json['team'] == null
+          ? null
+          : TeamResponse.fromJson(json['team'] as Map<String, dynamic>),
+      statistics: (json['statistics'] as List<dynamic>?)
+          ?.map((e) => StatisticResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$MatchStatisticsResponseToJson(
+        MatchStatisticsResponse instance) =>
+    <String, dynamic>{
+      'team': instance.team,
+      'statistics': instance.statistics,
+    };
+
+StatisticResponse _$StatisticResponseFromJson(Map<String, dynamic> json) =>
+    StatisticResponse(
+      type: json['type'] as String?,
+      value: json['value'],
+    );
+
+Map<String, dynamic> _$StatisticResponseToJson(StatisticResponse instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'value': instance.value,
+    };
+
+LineUpResponse _$LineUpResponseFromJson(Map<String, dynamic> json) =>
+    LineUpResponse(
+      team: json['team'] == null
+          ? null
+          : TeamResponse.fromJson(json['team'] as Map<String, dynamic>),
+      formation: json['formation'] as String?,
+      startXI: (json['startXI'] as List<dynamic>?)
+          ?.map((e) => StartXIResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      substitutes: (json['substitutes'] as List<dynamic>?)
+          ?.map((e) => SubstitutesResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      coach: json['coach'] == null
+          ? null
+          : CoachResponse.fromJson(json['coach'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$LineUpResponseToJson(LineUpResponse instance) =>
+    <String, dynamic>{
+      'team': instance.team,
+      'formation': instance.formation,
+      'startXI': instance.startXI,
+      'substitutes': instance.substitutes,
+      'coach': instance.coach,
+    };
+
+SubstitutesResponse _$SubstitutesResponseFromJson(Map<String, dynamic> json) =>
+    SubstitutesResponse(
+      player: json['player'] == null
+          ? null
+          : PlayerResponse.fromJson(json['player'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$SubstitutesResponseToJson(
+        SubstitutesResponse instance) =>
+    <String, dynamic>{
+      'player': instance.player,
+    };
+
+StartXIResponse _$StartXIResponseFromJson(Map<String, dynamic> json) =>
+    StartXIResponse(
+      player: json['player'] == null
+          ? null
+          : PlayerResponse.fromJson(json['player'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$StartXIResponseToJson(StartXIResponse instance) =>
+    <String, dynamic>{
+      'player': instance.player,
+    };
+
+PlayerResponse _$PlayerResponseFromJson(Map<String, dynamic> json) =>
+    PlayerResponse(
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      number: json['number'] as int?,
+      pos: json['pos'] as String?,
+      grid: json['grid'] as String?,
+    );
+
+Map<String, dynamic> _$PlayerResponseToJson(PlayerResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'number': instance.number,
+      'pos': instance.pos,
+      'grid': instance.grid,
+    };
+
+CoachResponse _$CoachResponseFromJson(Map<String, dynamic> json) =>
+    CoachResponse(
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      photo: json['photo'] as String?,
+    );
+
+Map<String, dynamic> _$CoachResponseToJson(CoachResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'photo': instance.photo,
+    };
+
+EventResponse _$EventResponseFromJson(Map<String, dynamic> json) =>
+    EventResponse(
+      time: json['time'] == null
+          ? null
+          : TimeResponse.fromJson(json['time'] as Map<String, dynamic>),
+      team: json['team'] == null
+          ? null
+          : TeamResponse.fromJson(json['team'] as Map<String, dynamic>),
+      player: json['player'] == null
+          ? null
+          : PlayerResponse.fromJson(json['player'] as Map<String, dynamic>),
+      assist: json['assist'] == null
+          ? null
+          : AssistResponse.fromJson(json['assist'] as Map<String, dynamic>),
+      type: json['type'] as String?,
+      detail: json['detail'] as String?,
+      comments: json['comments'] as String?,
+    );
+
+Map<String, dynamic> _$EventResponseToJson(EventResponse instance) =>
+    <String, dynamic>{
+      'time': instance.time,
+      'team': instance.team,
+      'player': instance.player,
+      'assist': instance.assist,
+      'type': instance.type,
+      'detail': instance.detail,
+      'comments': instance.comments,
+    };
+
+TimeResponse _$TimeResponseFromJson(Map<String, dynamic> json) => TimeResponse(
+      elapsed: json['elapsed'] as int?,
+      extra: json['extra'] as int?,
+    );
+
+Map<String, dynamic> _$TimeResponseToJson(TimeResponse instance) =>
+    <String, dynamic>{
+      'elapsed': instance.elapsed,
+      'extra': instance.extra,
+    };
+
+TeamResponse _$TeamResponseFromJson(Map<String, dynamic> json) => TeamResponse(
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      logo: json['logo'] as String?,
+    );
+
+Map<String, dynamic> _$TeamResponseToJson(TeamResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'logo': instance.logo,
+    };
+
+AssistResponse _$AssistResponseFromJson(Map<String, dynamic> json) =>
+    AssistResponse(
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$AssistResponseToJson(AssistResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+    };
+
+GetStandingsResponse _$GetStandingsResponseFromJson(
+        Map<String, dynamic> json) =>
+    GetStandingsResponse(
+      standings: (json['response'] as List<dynamic>?)
+          ?.map((e) => StandingsResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$GetStandingsResponseToJson(
+        GetStandingsResponse instance) =>
+    <String, dynamic>{
+      'response': instance.standings,
+    };
+
+GetMatcheEventResponse _$GetMatcheEventResponseFromJson(
+        Map<String, dynamic> json) =>
+    GetMatcheEventResponse(
+      matches: (json['response'] as List<dynamic>?)
+          ?.map((e) => MatchEventResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    )
+      ..get = json['get'] as String?
+      ..results = json['results'] as int?
+      ..paging = json['paging'] == null
+          ? null
+          : Paging.fromJson(json['paging'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetMatcheEventResponseToJson(
+        GetMatcheEventResponse instance) =>
+    <String, dynamic>{
+      'get': instance.get,
+      'results': instance.results,
+      'paging': instance.paging,
+      'response': instance.matches,
     };

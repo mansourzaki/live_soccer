@@ -1,126 +1,190 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:live_soccer/data/network/requests.dart';
+import 'package:live_soccer/providers/provider.dart';
+
+import '../../../../domain/entities/entities.dart';
 import '../../../resourcing/color_manager.dart';
 import '../matchs_widgets/team_widget.dart';
 import 'preview_view.dart';
 import 'tabel_view.dart';
 
-class MatchResultView extends StatefulWidget {
-  const MatchResultView({Key? key}) : super(key: key);
+class MatchResultView extends ConsumerStatefulWidget {
+  const MatchResultView({Key? key, required this.fixtureId}) : super(key: key);
+  final int fixtureId;
   final String img =
       'https://upload.wikimedia.org/wikipedia/hif/f/ff/Manchester_United_FC_crest.png';
   @override
-  State<MatchResultView> createState() => _MatchResultViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => MatchResultViewState();
 }
 
-class _MatchResultViewState extends State<MatchResultView>
+class MatchResultViewState extends ConsumerState<MatchResultView>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
-
   @override
   void initState() {
     _controller = TabController(length: 4, vsync: this);
+
     super.initState();
   }
 
   //  actions: [
+  List<Standing> standings = [];
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
     final availableWidth = mediaQuery.size.width - 160;
-    return Scaffold(
-        body: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  // title: Row(
-                  //   children: [
-                  //     Image.network(
-                  //       img,
-                  //       width: 25,
-                  //     ),
-                  //     Spacer(),
-                  //     Text(
-                  //       '2    FT    1',
-                  //       style: TextStyle(color: Colors.white, fontSize: 20),
-                  //     ),
-                  //     Spacer(),
-                  //     Image.network(
-                  //       img,
-                  //       width: 25,
-                  //     ),
-                  //   ],
-                  // ),
-                  actions: [
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.star_outline_outlined)),
-                    IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.more_vert)),
-                  ],
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              TeamNameWidget(
-                                  image: widget.img, name: 'Manchester'),
-                              const Spacer(),
-                              const Text(
-                                '2 - 0',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 24),
+    return ref.watch(matcheEventsFutureProvider(widget.fixtureId)).when(
+          data: (data) {
+            final match = data[0];
+
+            return Scaffold(
+                // floatingActionButton: FloatingActionButton(
+                //   onPressed: () {
+                //     log(data.length.toString());
+                //   },
+                // ),
+                body: data.isEmpty
+                    ? Center(
+                        child: Text('No data'),
+                      )
+                    : NestedScrollView(
+                        headerSliverBuilder: (context, innerBoxIsScrolled) {
+                          return [
+                            SliverAppBar(
+                              // title: Row(
+                              //   children: [
+                              //     Image.network(
+                              //       img,
+                              //       width: 25,
+                              //     ),
+                              //     Spacer(),
+                              //     Text(
+                              //       '2    FT    1',
+                              //       style: TextStyle(color: Colors.white, fontSize: 20),
+                              //     ),
+                              //     Spacer(),
+                              //     Image.network(
+                              //       img,
+                              //       width: 25,
+                              //     ),
+                              //   ],
+                              // ),
+                              actions: [
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                        Icons.star_outline_outlined)),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.more_vert)),
+                              ],
+                              flexibleSpace: FlexibleSpaceBar(
+                                background: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          TeamNameWidget(
+                                              image: match.teams.home.logo,
+                                              name: match.teams.home.name),
+                                          // const Spacer(),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                '${match.goals.home}'
+                                                ' - '
+                                                '${match.goals.away}',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 24),
+                                              ),
+                                              SizedBox(
+                                                height: 30,
+                                              ),
+                                              Text(
+                                                match.fixture.status.long,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 12),
+                                              ),
+                                            ],
+                                          ),
+
+                                          TeamNameWidget(
+                                              image: match.teams.away.logo,
+                                              name: match.teams.away.name),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
-                              const Spacer(),
-                              TeamNameWidget(
-                                  image: widget.img, name: 'Manchester'),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  bottom: TabBar(
-                    controller: _controller,
-                    tabs: [
-                      const Tab(
-                        text: 'Preview',
-                      ),
-                      const Tab(
-                        text: 'Lineup',
-                      ),
-                      const Tab(
-                        text: 'Table',
-                      ),
-                      const Tab(
-                        text: 'H2H',
-                      ),
-                    ],
-                  ),
-                  expandedHeight: 240,
-                  pinned: true,
-                  backgroundColor: const Color.fromARGB(255, 32, 31, 31),
-                )
-              ];
-            },
-            body: TabBarView(
-              controller: _controller,
-              children: const [
-                PreviewView(),
-                TabelView(),
-                TabelView(),
-                PreviewView(),
-              ],
-            )));
+                              bottom: TabBar(
+                                controller: _controller,
+                                tabs: [
+                                  const Tab(
+                                    text: 'Preview',
+                                  ),
+                                  const Tab(
+                                    text: 'Lineup',
+                                  ),
+                                  const Tab(
+                                    text: 'Table',
+                                  ),
+                                  const Tab(
+                                    text: 'H2H',
+                                  ),
+                                ],
+                              ),
+                              expandedHeight: 240,
+                              pinned: true,
+                              backgroundColor:
+                                  const Color.fromARGB(255, 32, 31, 31),
+                            )
+                          ];
+                        },
+                        body: TabBarView(
+                          controller: _controller,
+                          children: [
+                            PreviewView(match: match),
+                            TabelView(league: match.league),
+                            TabelView(league: match.league),
+                            PreviewView(match: match),
+                          ],
+                        )));
+          },
+          error: (error, stackTrace) {
+            print(stackTrace.toString() + 'tracee');
+            return Scaffold(
+              body: Center(
+                  child: Text(
+                '$error',
+                style: const TextStyle(color: Colors.white),
+              )),
+            );
+          },
+          loading: () => const SizedBox(
+              height: 500, child: Center(child: CircularProgressIndicator())),
+        );
   }
 }
 
-Container buildMatchStatstics() {
+Container buildMatchStatstics(MatchEvent event) {
   return Container(
     decoration: const BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -152,8 +216,8 @@ Container buildMatchStatstics() {
                   child: Text('  49%',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w800)),
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal)),
                 ),
               ),
               const Spacer(),
@@ -170,8 +234,8 @@ Container buildMatchStatstics() {
                   child: Text('51%  ',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w800)),
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal)),
                 ),
               ),
             ],
@@ -188,15 +252,20 @@ Container buildMatchStatstics() {
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   color: Color.fromARGB(232, 55, 51, 51),
                 ),
-                child: const Center(
-                  child: Text('1.17',
+                child: Center(
+                  child: Text(
+                      event.statistics!.first.statistics!
+                          .where((e) => e.type == 'Total Shots')
+                          .first
+                          .value
+                          .toString(),
                       style: TextStyle(
                         color: Colors.white,
                       )),
                 ),
               ),
               const Spacer(),
-              const Text('Expected goals (xG)',
+              const Text('Total Shots',
                   style: TextStyle(
                     color: Colors.white,
                   )),
@@ -208,8 +277,13 @@ Container buildMatchStatstics() {
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   color: Color.fromARGB(232, 55, 51, 51),
                 ),
-                child: const Center(
-                  child: Text('0.48',
+                child: Center(
+                  child: Text(
+                      event.statistics![1].statistics!
+                          .where((e) => e.type == 'Total Shots')
+                          .first
+                          .value
+                          .toString(),
                       style: TextStyle(
                         color: Colors.white,
                       )),
@@ -229,15 +303,20 @@ Container buildMatchStatstics() {
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   color: Color.fromARGB(232, 55, 51, 51),
                 ),
-                child: const Center(
-                  child: Text('17',
+                child: Center(
+                  child: Text(
+                      event.statistics![0].statistics!
+                          .where((e) => e.type == 'Shots on Goal')
+                          .first
+                          .value
+                          .toString(),
                       style: TextStyle(
                         color: Colors.white,
                       )),
                 ),
               ),
               const Spacer(),
-              const Text('Total Shots',
+              const Text('Shots on Goal',
                   style: TextStyle(
                     color: Colors.white,
                   )),
@@ -249,8 +328,13 @@ Container buildMatchStatstics() {
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   color: Color.fromARGB(232, 55, 51, 51),
                 ),
-                child: const Center(
-                  child: Text('5',
+                child: Center(
+                  child: Text(
+                      event.statistics![1].statistics!
+                          .where((e) => e.type == 'Shots on Goal')
+                          .first
+                          .value
+                          .toString(),
                       style: TextStyle(
                         color: Colors.white,
                       )),
@@ -270,15 +354,20 @@ Container buildMatchStatstics() {
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   color: Color.fromARGB(232, 55, 51, 51),
                 ),
-                child: const Center(
-                  child: Text('5',
+                child: Center(
+                  child: Text(
+                      event.statistics![1].statistics!
+                          .where((e) => e.type == 'Shots off Goal')
+                          .first
+                          .value
+                          .toString(),
                       style: TextStyle(
                         color: Colors.white,
                       )),
                 ),
               ),
               const Spacer(),
-              const Text('Shots on target',
+              const Text('Shots off Goal',
                   style: TextStyle(
                     color: Colors.white,
                   )),
@@ -290,8 +379,13 @@ Container buildMatchStatstics() {
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   color: Color.fromARGB(232, 55, 51, 51),
                 ),
-                child: const Center(
-                  child: Text('1',
+                child: Center(
+                  child: Text(
+                      event.statistics![1].statistics!
+                          .where((e) => e.type == 'Shots off Goal')
+                          .first
+                          .value
+                          .toString(),
                       style: TextStyle(
                         color: Colors.white,
                       )),
@@ -305,43 +399,37 @@ Container buildMatchStatstics() {
   );
 }
 
-Container buildMatchFacts() {
+Container buildMatchDetails(MatchEvent match) {
   return Container(
     decoration: const BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(10)),
       color: ColorManager.primary,
     ),
     child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       child: Column(
         children: [
-          buildGoalTile(),
+          buildDetail(
+              Icons.calendar_month,
+              DateTime.fromMillisecondsSinceEpoch(
+                      match.fixture.timestamp * 1000)
+                  .toString()),
           const SizedBox(
-            height: 15,
+            height: 10,
           ),
-          buildChangingTile(isEnd: true),
+          buildDetail(Icons.leaderboard,
+              match.league.name + ' - ' + match.league.round!),
           const SizedBox(
-            height: 15,
+            height: 10,
           ),
-          buildGoalTile(isEnd: true),
+          buildDetail(Icons.stadium,
+              match.fixture.venue.name + ', ' + match.fixture.venue.city),
           const SizedBox(
-            height: 15,
+            height: 10,
           ),
-          buildChangingTile(),
+          buildDetail(Icons.sports, match.fixture.referee),
           const SizedBox(
-            height: 15,
-          ),
-          buildChangingTile(),
-          const SizedBox(
-            height: 15,
-          ),
-          buildChangingTile(),
-          const SizedBox(
-            height: 15,
-          ),
-          buildYellowTile(),
-          const SizedBox(
-            height: 15,
+            height: 10,
           ),
         ],
       ),
@@ -349,12 +437,125 @@ Container buildMatchFacts() {
   );
 }
 
-Row buildGoalTile({bool isEnd = false}) {
+Row buildDetail(IconData icon, String label) {
+  return Row(
+    children: [
+      Icon(
+        icon,
+        color: Colors.white,
+      ),
+      SizedBox(
+        width: 10,
+      ),
+      Container(
+        // width: 40,
+        padding: EdgeInsets.all(8),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          color: Color.fromARGB(232, 55, 51, 51),
+        ),
+        child: Center(
+          child: Text(label,
+              style: TextStyle(
+                color: Colors.white,
+              )),
+        ),
+      ),
+      SizedBox(
+        width: 20,
+      ),
+    ],
+  );
+}
+
+Container buildMatchFacts(
+  MatchEvent match,
+) {
+  return Container(
+    decoration: const BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+      color: ColorManager.primary,
+    ),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+        itemBuilder: (context, i) {
+          // bool x = match.events![0].team.name == match.teams.home.name;
+          switch (match.events![i].type) {
+            case 'Goal':
+              // match.events![i].team.name == match.teams.away.name
+              //     ? awayGoals++
+              //     : homeGoals++;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: buildGoalTile(
+                  event: match.events![i],
+                  isEnd: match.events![i].team.name == match.teams.away.name,
+                ),
+              );
+            case 'Card':
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: buildYellowTile(
+                    event: match.events![i],
+                    isEnd: match.events![i].team.name == match.teams.away.name),
+              );
+            case 'subst':
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: buildChangingTile(
+                    event: match.events![i],
+                    isEnd: match.events![i].team.name == match.teams.away.name),
+              );
+          }
+          return Text('');
+        },
+        itemCount: match.events!.length,
+      ),
+      // child: Column(
+      //   children: [
+      //     buildGoalTile(event: ),
+      //     const SizedBox(
+      //       height: 15,
+      //     ),
+      //     buildChangingTile(isEnd: true),
+      //     const SizedBox(
+      //       height: 15,
+      //     ),
+      //     buildGoalTile(isEnd: true),
+      //     const SizedBox(
+      //       height: 15,
+      //     ),
+      //     buildChangingTile(),
+      //     const SizedBox(
+      //       height: 15,
+      //     ),
+      //     buildChangingTile(),
+      //     const SizedBox(
+      //       height: 15,
+      //     ),
+      //     buildChangingTile(),
+      //     const SizedBox(
+      //       height: 15,
+      //     ),
+      //     buildYellowTile(),
+      //     const SizedBox(
+      //       height: 15,
+      //     ),
+      //   ],
+      // ),
+    ),
+  );
+}
+
+Row buildGoalTile({bool isEnd = false, required Event event, int goals = 0}) {
   return Row(
     textDirection: isEnd ? TextDirection.rtl : null,
     children: [
-      const Text(
-        '7',
+      Text(
+        event.time.elapsed.toString(),
         style: TextStyle(color: ColorManager.white),
       ),
       const SizedBox(
@@ -371,18 +572,18 @@ Row buildGoalTile({bool isEnd = false}) {
       Column(
         crossAxisAlignment:
             isEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text.rich(
-            TextSpan(text: 'Cristiano Ronaldo (', children: [
+            TextSpan(text: '${event.player.name} (', children: [
               TextSpan(text: '1 ', style: TextStyle(color: Colors.green)),
               TextSpan(
-                text: ' - 0)',
+                text: '- 0)',
               )
             ]),
             style: TextStyle(color: ColorManager.white),
           ),
           Text(
-            'Assist by Diaz',
+            event.assist.name.toString(),
             style: TextStyle(color: ColorManager.grey2),
           ),
         ],
@@ -391,38 +592,40 @@ Row buildGoalTile({bool isEnd = false}) {
   );
 }
 
-Row buildYellowTile({bool isEnd = false}) {
+Row buildYellowTile({bool isEnd = false, required Event event}) {
   return Row(
     textDirection: isEnd ? TextDirection.rtl : null,
     children: [
-      const Text(
-        '88',
+      Text(
+        event.time.elapsed.toString(),
         style: TextStyle(color: ColorManager.white),
       ),
       const SizedBox(
         width: 10,
       ),
-      Image.network(
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Yellow_card.svg/1574px-Yellow_card.svg.png',
+      Image.asset(
+        event.detail == 'Yellow Card'
+            ? 'assets/images/yellow_card.png'
+            : 'assets/images/red_card.png',
         width: 20,
       ),
       const SizedBox(
         width: 10,
       ),
-      const Text(
-        'Cristiano Ronaldo',
+      Text(
+        event.player.name,
         style: TextStyle(color: ColorManager.white),
       ),
     ],
   );
 }
 
-Row buildChangingTile({bool isEnd = false}) {
+Row buildChangingTile({bool isEnd = false, required Event event}) {
   return Row(
     textDirection: isEnd ? TextDirection.rtl : null,
     children: [
-      const Text(
-        '58',
+      Text(
+        event.time.elapsed.toString(),
         style: TextStyle(color: ColorManager.white),
       ),
       const SizedBox(
@@ -435,7 +638,7 @@ Row buildChangingTile({bool isEnd = false}) {
           Text.rich(
             textDirection: isEnd ? TextDirection.ltr : TextDirection.rtl,
             style: const TextStyle(color: ColorManager.white),
-            TextSpan(text: 'Casemero', children: [
+            TextSpan(text: event.assist.name, children: [
               const TextSpan(text: '    '),
               WidgetSpan(
                   child: CircleAvatar(
@@ -454,7 +657,7 @@ Row buildChangingTile({bool isEnd = false}) {
           Text.rich(
             textDirection: isEnd ? TextDirection.ltr : TextDirection.rtl,
             style: const TextStyle(color: ColorManager.white),
-            TextSpan(text: 'Varane', children: [
+            TextSpan(text: event.player.name, children: [
               const TextSpan(text: '    '),
               WidgetSpan(
                   child: CircleAvatar(
@@ -476,7 +679,8 @@ Row buildChangingTile({bool isEnd = false}) {
   );
 }
 
-Container buildManOfTheMatch(String img) {
+Container buildManOfTheMatch(
+    String img, String name, String rate, String team) {
   return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -496,10 +700,9 @@ Container buildManOfTheMatch(String img) {
                   height: 115,
                   child: Stack(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 30,
-                        backgroundImage: NetworkImage(
-                            'https://cdn.resfu.com/img_data/players/big/776260.jpg'),
+                        backgroundImage: NetworkImage(img),
                       ),
                       Positioned(
                           left: 20,
@@ -513,11 +716,11 @@ Container buildManOfTheMatch(String img) {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                               ),
-                              child: const Center(
+                              child: Center(
                                 child: Text.rich(TextSpan(
                                     style: TextStyle(color: ColorManager.white),
-                                    text: '8.4',
-                                    children: [
+                                    text: rate,
+                                    children: const [
                                       WidgetSpan(
                                           alignment:
                                               PlaceholderAlignment.middle,
@@ -530,8 +733,8 @@ Container buildManOfTheMatch(String img) {
                               )))
                     ],
                   )),
-              title: const Text(
-                'Ansu Fati',
+              title: Text(
+                name,
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
               subtitle: Text.rich(TextSpan(
@@ -544,7 +747,7 @@ Container buildManOfTheMatch(String img) {
                           img,
                           width: 20,
                         )),
-                    const TextSpan(text: '  Manchester United')
+                    TextSpan(text: team)
                   ])),
             )
           ],

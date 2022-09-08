@@ -8,7 +8,6 @@ part of 'responses.dart';
 
 BaseResponse _$BaseResponseFromJson(Map<String, dynamic> json) => BaseResponse(
       get: json['get'] as String?,
-      errors: json['errors'] as List<dynamic>?,
       results: json['results'] as int?,
       paging: json['paging'] == null
           ? null
@@ -18,7 +17,6 @@ BaseResponse _$BaseResponseFromJson(Map<String, dynamic> json) => BaseResponse(
 Map<String, dynamic> _$BaseResponseToJson(BaseResponse instance) =>
     <String, dynamic>{
       'get': instance.get,
-      'errors': instance.errors,
       'results': instance.results,
       'paging': instance.paging,
     };
@@ -41,7 +39,6 @@ GetCountriesResponse _$GetCountriesResponseFromJson(
           .toList(),
     )
       ..get = json['get'] as String?
-      ..errors = json['errors'] as List<dynamic>?
       ..results = json['results'] as int?
       ..paging = json['paging'] == null
           ? null
@@ -51,7 +48,6 @@ Map<String, dynamic> _$GetCountriesResponseToJson(
         GetCountriesResponse instance) =>
     <String, dynamic>{
       'get': instance.get,
-      'errors': instance.errors,
       'results': instance.results,
       'paging': instance.paging,
       'response': instance.countries,

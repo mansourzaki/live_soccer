@@ -7,7 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:live_soccer/domain/entities/entities.dart';
+import 'package:live_soccer/presentation/screens/matches/matches_view/tabel_view.dart';
 import 'package:live_soccer/providers/provider.dart';
+
+import 'league_details.dart';
 
 class LeaguesScreen extends ConsumerWidget {
   LeaguesScreen({Key? key}) : super(key: key);
@@ -18,43 +21,43 @@ class LeaguesScreen extends ConsumerWidget {
         appBar: AppBar(
           title: const Text('Leagues'),
         ),
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          // ref.read(leaguesProvider).whenData((value) {
-          //   print(value);
-          // });
-          // print('presses');
-        }),
+        // floatingActionButton: FloatingActionButton(onPressed: () {
+        //   // ref.read(leaguesProvider).whenData((value) {
+        //   //   print(value);
+        //   // });
+        //   // print('presses');
+        // }),
         body: SingleChildScrollView(
           child: Column(
             children: [
               _buildFollowingWidget(),
               Container(
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 5,
-                  ),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: const Color.fromARGB(255, 27, 26, 26),
+                    color: Color.fromARGB(255, 27, 26, 26),
                   ),
                   child: ref.watch(leaguesProvider).when(
-                      data: (data) {
-                        List<Country> countries =
-                            data.map((e) => e.country).toSet().toList();
-                        countries.sort((a, b) => a.name.compareTo(b.name));
+                        data: (data) {
+                          List<Country> countries =
+                              data.map((e) => e.country).toSet().toList();
+                          countries.sort((a, b) => a.name.compareTo(b.name));
 
-                        return AllLeaguesWidget(
-                          countries: countries,
-                          competions: data,
-                        );
-                      },
-                      error: (error, stackTrace) => Center(
-                              child: Text(
-                            '$error',
-                            style: const TextStyle(color: Colors.white),
-                          )),
-                      loading: () => const SizedBox(
-                          height: 500,
-                          child: Center(child: CircularProgressIndicator())))),
+                          return AllLeaguesWidget(
+                            countries: countries,
+                            competions: data,
+                          );
+                        },
+                        error: (error, stackTrace) => Center(
+                            child: Text(
+                          '$error',
+                          style: const TextStyle(color: Colors.white),
+                        )),
+                        loading: () => const SizedBox(
+                            height: 500,
+                            child: Center(child: CircularProgressIndicator())),
+                      )),
             ],
           ),
         ));
@@ -63,7 +66,7 @@ class LeaguesScreen extends ConsumerWidget {
   Container _buildFollowingWidget() {
     return Container(
       padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.symmetric(vertical: 5),
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: const Color.fromARGB(255, 27, 26, 26),
@@ -78,11 +81,11 @@ class LeaguesScreen extends ConsumerWidget {
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               Spacer(),
-              Text(
-                'Edit',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              )
+              // Text(
+              //   'Edit',
+              //   style:
+              //       TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              // )
             ],
           ),
           const SizedBox(
@@ -152,45 +155,72 @@ class LeagueRowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 20,
-            height: 20,
-            child: CachedNetworkImage(
-              imageUrl: competion.league.logo,
-            ),
-          ),
-          const SizedBox(
-            width: 16,
-          ),
-          Text(
-            competion.league.name,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.white,
-            ),
-          ),
-          const Spacer(),
-          SizedBox(
-            height: 25,
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                  primary: const Color.fromARGB(68, 1, 1, 1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                  )),
-              child: const Text(
-                'Follow',
-                style: TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 14),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (c) {
+            return LeagueetailsScreen(
+              league: competion.league,
+            );
+            // return Scaffold(
+            //   appBar: AppBar(
+            //       title: Text.rich(TextSpan(children: [
+            //     WidgetSpan(
+            //         alignment: PlaceholderAlignment.middle,
+            //         child: Image.network(
+            //           competion.league.logo,
+            //           width: 30,
+            //         )),
+            //     WidgetSpan(
+            //         alignment: PlaceholderAlignment.middle,
+            //         child: SizedBox(
+            //           width: 5,
+            //         )),
+            //     TextSpan(text: competion.league.name),
+            //   ]))),
+            //   body: TabelView(league: competion.league),
+            // );
+          }));
+        },
+        child: Row(
+          children: [
+            SizedBox(
+              width: 20,
+              height: 20,
+              child: CachedNetworkImage(
+                imageUrl: competion.league.logo,
               ),
             ),
-          )
-        ],
+            const SizedBox(
+              width: 16,
+            ),
+            Text(
+              competion.league.name,
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.white,
+              ),
+            ),
+            const Spacer(),
+            SizedBox(
+              height: 25,
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    primary: const Color.fromARGB(68, 1, 1, 1),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    )),
+                child: const Text(
+                  'Follow',
+                  style: TextStyle(
+                      color: Colors.green,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -224,7 +254,7 @@ class FollowingHeader extends StatelessWidget {
   const FollowingHeader({
     Key? key,
   }) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     return Row(children: const [

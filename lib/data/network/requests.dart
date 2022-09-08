@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:equatable/equatable.dart';
+
 class CompetionsRequest {
   int season;
   int? id;
@@ -14,6 +16,16 @@ class CompetionsRequest {
     this.current,
     this.search,
   });
+}
+
+class StandingsRequest extends Equatable {
+  final int season;
+  final int league;
+
+  const StandingsRequest({required this.season, required this.league});
+
+  @override
+  List<Object> get props => [season, league];
 }
 
 class MatchesRequest {
